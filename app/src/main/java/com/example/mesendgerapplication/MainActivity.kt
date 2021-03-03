@@ -1,0 +1,59 @@
+package com.example.mesendgerapplication
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.example.mesendgerapplication.activitys.RegistrActivity
+import com.example.mesendgerapplication.databinding.ActivityMainBinding
+import com.example.mesendgerapplication.models.User
+import com.example.mesendgerapplication.ui.fragments.ChatsFragment
+import com.example.mesendgerapplication.ui.objects.AppDrawer
+import com.example.mesendgerapplication.utilities.*
+import com.theartofdev.edmodo.cropper.CropImage
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var mBinding: ActivityMainBinding
+    lateinit var mAppDrawer: AppDrawer
+    private lateinit var mToolbar: Toolbar
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
+        APP_ACTIVITY = this
+        initFirebase()
+        initUser(){
+            initView()
+            initFun()
+        }
+    }
+
+    private fun initView() {
+        mToolbar = mBinding.mainToolbar
+        mAppDrawer = AppDrawer(this, mToolbar)
+    }
+
+    private fun initFun() {
+        if (AUTH.currentUser != null) {
+            setSupportActionBar(mToolbar)
+            mAppDrawer.create()
+            replaceFragment(ChatsFragment(), R.id.dataContainer, false)
+        } else {
+            replaceActivity(RegistrActivity())
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        AppStates.updateState(AppStates.ONLINE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AppStates.updateState(AppStates.OFFLINE)
+    }
+}

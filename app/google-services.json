@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "985959985256",
+    "project_id": "mesendgerapplication",
+    "storage_bucket": "mesendgerapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985959985256:android:fbe519d02ca232564c0bdd",
+        "android_client_info": {
+          "package_name": "com.example.mesendgerapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985959985256-shs5rcf7se6ige6nnk5s5st6pa9nnslv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-KtIPqezJgke4UpYjTdeiU6BbZAHmtyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985959985256-shs5rcf7se6ige6nnk5s5st6pa9nnslv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
