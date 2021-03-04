@@ -35,16 +35,22 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
                 dateMap[CHILD_ID] = uid
                 dateMap[CHILD_PHONE] = mPhoneNumber
                 dateMap[CHILD_USER_NAME] = uid
-                REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            showToast("Добро пожааловат")
-                            (activity as RegistrActivity).replaceActivity(MainActivity())
-                        } else showToast(task.exception?.message.toString())
+                REF_DATABASE_ROOT.child(NODE_PHONES).child(mPhoneNumber).setValue(uid)
+                    .addOnFailureListener {
+                        showToast(it.message.toString())
+                    }
+                    .addOnSuccessListener {
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
+                            .addOnSuccessListener {
+                                showToast("Добро пожааловат")
+                                (activity as RegistrActivity).replaceActivity(MainActivity())
+                            }
+                            .addOnFailureListener {
+                                showToast(it.message.toString())
+                            }
                     }
             } else showToast(it.exception?.message.toString())
         }
-
     }
 
 }

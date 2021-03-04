@@ -24,4 +24,5 @@
     <string name="settings_toast_input_name">Введитя имя</string>
     <string name="toast_data_update">Данные обновленн</string>
     <string name="hint_bio">Напишите о себе</string>
+    <string name="fragment_title_contacts">Контакты</string>
 </resources>

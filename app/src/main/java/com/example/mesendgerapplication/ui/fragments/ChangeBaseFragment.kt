@@ -15,7 +15,6 @@ open class ChangeBaseFragment(layout: Int) : Fragment(layout) {
         super.onStart()
         setHasOptionsMenu(true)
         (activity as MainActivity).mAppDrawer.disableDrawer()
-        hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

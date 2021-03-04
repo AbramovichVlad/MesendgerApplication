@@ -6,14 +6,14 @@ import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.activitys.RegistrActivity
-import com.example.mesendgerapplication.utilities.AUTH
-import com.example.mesendgerapplication.utilities.replaceActivity
-import com.example.mesendgerapplication.utilities.replaceFragment
-import com.example.mesendgerapplication.utilities.showToast
+import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.android.synthetic.main.fragment_enter_phone_number.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
@@ -53,8 +53,8 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
         if (registr_input_phone_number.text.toString().isEmpty()) {
             showToast(getString(R.string.registr_toast_enter_phone))
         } else {
-           showProgress()
             authUser()
+            showProgress()
         }
     }
 
@@ -70,11 +70,14 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
     }
 
     private fun showProgress(){
-        Thread(Runnable {
-            (activity as RegistrActivity).runOnUiThread(java.lang.Runnable {
-                progress_registration.visibility = View.VISIBLE
-            })
-        }).start()
+        CoroutineScope(Dispatchers.Main).launch {
+            progress_registration.visibility = View.VISIBLE
+        }
+//        Thread(Runnable {
+//            (activity as RegistrActivity).runOnUiThread(java.lang.Runnable {
+//                progress_registration.visibility = View.VISIBLE
+//            })
+//        }).start()
     }
 
 }
