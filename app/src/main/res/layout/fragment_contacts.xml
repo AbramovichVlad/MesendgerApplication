@@ -7,7 +7,7 @@
     tools:context=".ui.fragments.ContactsFragment">
 
    <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/_ontacts_recycler_view"
+       android:id="@+id/contacts_recycler_view"
        tools:listitem="@layout/contact_item"
        android:layout_width="match_parent"
        android:layout_height="match_parent"

@@ -15,8 +15,9 @@
         android:theme="@style/Theme.MesendgerApplication">
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
-        <activity android:name=".activitys.RegistrActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+        <activity
+            android:name=".activitys.RegistrActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "985959985256",
+    "firebase_url": "https://mesendgerapplication-default-rtdb.firebaseio.com",
     "project_id": "mesendgerapplication",
     "storage_bucket": "mesendgerapplication.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "985959985256-udvde5540u85m7k4aanerfi6vrnqevk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mesendgerapplication",
+            "certificate_hash": "394e61995cc31c63a67f47ca6ea4ec885c06c1cc"
+          }
+        },
         {
           "client_id": "985959985256-shs5rcf7se6ige6nnk5s5st6pa9nnslv.apps.googleusercontent.com",
           "client_type": 3

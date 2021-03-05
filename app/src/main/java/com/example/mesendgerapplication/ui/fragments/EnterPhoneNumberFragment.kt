@@ -54,7 +54,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             showToast(getString(R.string.registr_toast_enter_phone))
         } else {
             authUser()
-            showProgress()
+          //  showProgress()
         }
     }
 
