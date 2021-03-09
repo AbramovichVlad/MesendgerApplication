@@ -3,7 +3,7 @@ package com.example.mesendgerapplication.utilities
 import android.net.Uri
 import android.provider.ContactsContract
 import com.example.mesendgerapplication.models.CommonModel
-import com.example.mesendgerapplication.models.User
+import com.example.mesendgerapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
@@ -13,7 +13,7 @@ import com.google.firebase.storage.StorageReference
 
 lateinit var AUTH: FirebaseAuth
 lateinit var REF_DATABASE_ROOT: DatabaseReference
-lateinit var USER: User
+lateinit var USER: UserModel
 lateinit var CURRENT_UID: String
 
 lateinit var REF_STORAGE_ROT: StorageReference
@@ -36,7 +36,7 @@ const val CHILD_STATE = "state"
 fun initFirebase() {
     AUTH = FirebaseAuth.getInstance()
     REF_DATABASE_ROOT = FirebaseDatabase.getInstance().reference
-    USER = User()
+    USER = UserModel()
     CURRENT_UID = AUTH.currentUser?.uid.toString()
     REF_STORAGE_ROT = FirebaseStorage.getInstance().reference
 }
@@ -67,7 +67,7 @@ inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline funct
 inline fun initUser(crossinline function: () -> Unit) {
     REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID)
         .addListenerForSingleValueEvent(AppValueEventListener {
-            USER = it.getValue(User::class.java) ?: User()
+            USER = it.getValue(UserModel::class.java) ?: UserModel()
             if (USER.username.isEmpty()) {
                 USER.username = CURRENT_UID
             }
@@ -77,7 +77,7 @@ inline fun initUser(crossinline function: () -> Unit) {
 
 fun initContacts() {
     if (checkPremision(READ_CONTACTS)) {
-        var arryContacts = arrayListOf<CommonModel>()
+        val arryContacts = arrayListOf<CommonModel>()
         val cursor = APP_ACTIVITY.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
@@ -89,11 +89,11 @@ fun initContacts() {
             while (it.moveToNext()) {
                 val fullName =
                     it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                var phone =
+                val phone =
                     it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 val newModel = CommonModel()
                 newModel.fullname = fullName
-                newModel.phone = phone.replace(Regex("[\\s,-,\\p{P}]"), "")
+                newModel.phone = phone.replace(Regex("[\\s, -,\\p{P}]"), "")
                 arryContacts.add(newModel)
 
             }
@@ -125,4 +125,7 @@ fun updatePhonesToDatabase(arryContacts: ArrayList<CommonModel>) {
 
 fun DataSnapshot.getCommonModel(): CommonModel =
     this.getValue(CommonModel::class.java) ?: CommonModel()
+
+fun DataSnapshot.getUserModel(): UserModel =
+    this.getValue(UserModel::class.java) ?: UserModel()
 

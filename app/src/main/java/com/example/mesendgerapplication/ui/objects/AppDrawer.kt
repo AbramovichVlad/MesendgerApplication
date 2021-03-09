@@ -4,10 +4,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.models.User
 import com.example.mesendgerapplication.ui.fragments.ContactsFragment
 import com.example.mesendgerapplication.ui.fragments.SetingsFragment
 import com.example.mesendgerapplication.utilities.APP_ACTIVITY
@@ -136,8 +134,8 @@ class AppDrawer() {
 
     private fun clickToItem(position: Int) {
         when (position) {
-            7 -> APP_ACTIVITY.replaceFragment(SetingsFragment(), R.id.dataContainer)
-            4 -> APP_ACTIVITY.replaceFragment(ContactsFragment(),R.id.dataContainer)
+            7 -> APP_ACTIVITY.replaceFragment(SetingsFragment(), R.id.data_container)
+            4 -> APP_ACTIVITY.replaceFragment(ContactsFragment(),R.id.data_container)
         }
     }
 
@@ -166,7 +164,7 @@ class AppDrawer() {
 
     private fun initLoader(){
         DrawerImageLoader.init(object : AbstractDrawerImageLoader(){
-            override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable) {
+            override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 imageView.downloadAndSetImage(uri.toString())
             }
         })

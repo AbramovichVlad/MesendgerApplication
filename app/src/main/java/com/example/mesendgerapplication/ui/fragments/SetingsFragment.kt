@@ -2,7 +2,6 @@ package com.example.mesendgerapplication.ui.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -10,7 +9,6 @@ import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.utilities.*
-import com.google.firebase.storage.StorageReference
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_setings.*
@@ -31,10 +29,10 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
         tv_settings_full_name.text = USER.username
         tv_seting_user_status.text = USER.state
         settings_btn_change_login.setOnClickListener {
-            replaceFragment(ChangeUserNameFragment(), R.id.dataContainer)
+            replaceFragment(ChangeUserNameFragment(), R.id.data_container)
         }
         settings_btn_change_bio.setOnClickListener {
-            replaceFragment(ChangeBIoFragment(), R.id.dataContainer)
+            replaceFragment(ChangeBIoFragment(), R.id.data_container)
         }
         settings_change_photo.setOnClickListener {
             changePhotoUser()
@@ -62,7 +60,7 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
                 (activity as MainActivity).replaceActivity(RegistrActivity())
             }
             R.id._settings_action_menu_change_name -> {
-                replaceFragment(ChangeNameFragment(), R.id.dataContainer)
+                replaceFragment(ChangeNameFragment(), R.id.data_container)
             }
 
         }

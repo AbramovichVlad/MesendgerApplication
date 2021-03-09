@@ -14,13 +14,14 @@
         android:src="@drawable/register_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_descripton_regist_image_view" />
 
     <TextView
         android:id="@+id/registr_text_enter_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vertical_margin"
+        android:layout_margin="@dimen/app_smal_margin"
         android:gravity="center"
         android:text="@string/registr_text_enter_code"
         android:textColor="@color/grey_900"
@@ -35,7 +36,7 @@
         style="@style/smalText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vertical_margin"
+        android:layout_margin="@dimen/app_smal_margin"
         android:gravity="center"
         android:text="@string/registr_text_we_send"
         app:layout_constraintEnd_toEndOf="parent"

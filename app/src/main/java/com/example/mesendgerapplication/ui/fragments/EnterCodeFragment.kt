@@ -1,5 +1,6 @@
 package com.example.mesendgerapplication.ui.fragments
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
@@ -13,6 +14,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     Fragment(R.layout.fragment_enter_code) {
 
     override fun onStart() {
+        Log.d("tagEnterPhoneNumber","onStart EnterCodeFragment")
         super.onStart()
         (activity as RegistrActivity).title = mPhoneNumber
         registr_input_code.addTextChangedListener(AppTextWatcher {
@@ -25,6 +27,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     }
 
     private fun verifiCode() {
+        Log.d("tagEnterPhoneNumber","authverifiCodeUser")
         val code = registr_input_code.text.toString()
         val credential = PhoneAuthProvider.getCredential(id, code)
 

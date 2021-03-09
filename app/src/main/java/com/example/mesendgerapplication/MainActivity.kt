@@ -1,20 +1,15 @@
 package com.example.mesendgerapplication
 
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.databinding.ActivityMainBinding
-import com.example.mesendgerapplication.models.User
 import com.example.mesendgerapplication.ui.fragments.ChatsFragment
 import com.example.mesendgerapplication.ui.objects.AppDrawer
 import com.example.mesendgerapplication.utilities.*
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         if (AUTH.currentUser != null) {
             setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment(), R.id.dataContainer, false)
+            replaceFragment(ChatsFragment(), R.id.data_container, false)
         } else {
             replaceActivity(RegistrActivity())
         }

@@ -7,7 +7,6 @@ import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.databinding.ActivityRegistrBinding
 import com.example.mesendgerapplication.ui.fragments.EnterPhoneNumberFragment
 import com.example.mesendgerapplication.utilities.initFirebase
-import com.example.mesendgerapplication.utilities.replaceActivity
 import com.example.mesendgerapplication.utilities.replaceFragment
 
 class RegistrActivity : AppCompatActivity() {
@@ -27,6 +26,6 @@ class RegistrActivity : AppCompatActivity() {
         mToolbar = mBinding.registrToolbar
         setSupportActionBar(mToolbar)
         title = getString(R.string.registr_title_your_phone)
-        replaceFragment(EnterPhoneNumberFragment(), R.id.registrDataContainer, false)
+        replaceFragment(EnterPhoneNumberFragment(), R.id.registr_data_container, false)
     }
 }

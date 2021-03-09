@@ -1,6 +1,5 @@
 package com.example.mesendgerapplication.ui.fragments
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.utilities.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.contact_item.view.*
@@ -57,6 +55,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                     holder.name.text = contact.fullname
                     holder.status.text = contact.state
                     holder.photo.downloadAndSetImage(contact.photoUrl)
+                    holder.itemView.setOnClickListener{
+                        replaceFragment(SingleChatFragment(contact), R.id.data_container)
+                    }
                 }
                 mRefUsers.addValueEventListener(mRefUsersListner)
                 mapListner [mRefUsers] = mRefUsersListner
@@ -75,8 +76,8 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
     }
 
     class ContactsHolder(view : View): RecyclerView.ViewHolder(view){
-        val name : TextView = view.contact_fullName
-        val status : TextView = view.contact_status
+        val name : TextView = view.toolbar_contact_chat_fullName
+        val status : TextView = view.toolbar_contact_chat_status
         val photo : CircleImageView = view.contact_photo
     }
 }
