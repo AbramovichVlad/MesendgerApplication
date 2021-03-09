@@ -1,7 +1,6 @@
 package com.example.mesendgerapplication.utilities
 
 import android.net.Uri
-import android.provider.ContactsContract
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
@@ -75,51 +74,33 @@ inline fun initUser(crossinline function: () -> Unit) {
         })
 }
 
-fun initContacts() {
-    if (checkPremision(READ_CONTACTS)) {
-        val arryContacts = arrayListOf<CommonModel>()
-        val cursor = APP_ACTIVITY.contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            null,
-            null,
-            null
-        )
-        cursor?.let {
-            while (it.moveToNext()) {
-                val fullName =
-                    it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val phone =
-                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                val newModel = CommonModel()
-                newModel.fullname = fullName
-                newModel.phone = phone.replace(Regex("[\\s, -,\\p{P}]"), "")
-                arryContacts.add(newModel)
-
-            }
-        }
-        cursor?.close()
-        updatePhonesToDatabase(arryContacts)
-    }
-}
 
 fun updatePhonesToDatabase(arryContacts: ArrayList<CommonModel>) {
-    REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(AppValueEventListener {
-        it.children.forEach { dataSnaphot ->
-            arryContacts.forEach { contact ->
-                if (dataSnaphot.key == contact.phone) {
-                    REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS)
-                        .child(CURRENT_UID)
-                        .child(dataSnaphot.value.toString())
-                        .child(CHILD_ID)
-                        .setValue(dataSnaphot.value.toString())
-                        .addOnFailureListener {
-                            showToast(it.message.toString())
-                        }
+    if (AUTH.currentUser != null) {
+        REF_DATABASE_ROOT.child(NODE_PHONES).addListenerForSingleValueEvent(AppValueEventListener {
+            it.children.forEach { dataSnaphot ->
+                arryContacts.forEach { contact ->
+                    if (dataSnaphot.key == contact.phone) {
+                        REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS)
+                            .child(CURRENT_UID)
+                            .child(dataSnaphot.value.toString())
+                            .child(CHILD_ID)
+                            .setValue(dataSnaphot.value.toString())
+                            .addOnFailureListener {
+                                showToast(it.message.toString())
+                            }
+                        REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS)
+                            .child(CURRENT_UID)
+                            .child(dataSnaphot.value.toString())
+                            .child(CHILD_FULLNAME).setValue(contact.fullname)
+                            .addOnFailureListener {
+                                showToast(it.message.toString())
+                            }
+                    }
                 }
             }
-        }
-    })
+        })
+    }
 }
 
 

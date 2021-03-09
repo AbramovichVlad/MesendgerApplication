@@ -25,4 +25,17 @@
     <string name="toast_data_update">Данные обновленн</string>
     <string name="hint_bio">Напишите о себе</string>
     <string name="fragment_title_contacts">Контакты</string>
+    <string name="content_descripton_regist_image_view">123</string>
+    <string name="flating_action_btn_content_descripton">Next</string>
+    <string name="contact_item_name">Name contact</string>
+    <string name="contact_item_status">В сети</string>
+    <string name="toolbar_contact_name">Name contact</string>
+    <string name="toolbar_status">В сети</string>
+    <string name="message_item_default_text">Привет как дела</string>
+    <string name="message_item_time">21:12</string>
+    <string name="meessage_item_recived_message">Привет как дела</string>
+    <string name="message_item_recived_time">21:12</string>
+    <string name="chat_message_hint">Сообщение</string>
+    <string name="btn_send">send</string>
+    <string name="message_autohil">Message</string>
 </resources>

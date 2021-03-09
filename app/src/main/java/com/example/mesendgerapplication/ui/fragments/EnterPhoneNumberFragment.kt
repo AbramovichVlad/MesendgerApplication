@@ -1,6 +1,5 @@
 package com.example.mesendgerapplication.ui.fragments
 
-import android.R.attr.phoneNumber
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -63,22 +62,13 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
         } else {
             Log.d("tagEnterPhoneNumber", "sendCode")
             authUser()
-          //  showProgress()
+            //  showProgress()
         }
     }
 
     private fun authUser() {
         /* Инициализация */
         Log.d("tagEnterPhoneNumber", "authUser")
-//        mPhoneNumber = registr_input_phone_number.text.toString()
-//        Log.d("tagEnterPhoneNumber", mPhoneNumber)
-//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//            mPhoneNumber,
-//            60,
-//            TimeUnit.SECONDS,
-//            APP_ACTIVITY,
-//            mCallBack
-//        )
         mPhoneNumber = registr_input_phone_number.text.toString()
         val options = PhoneAuthOptions.newBuilder(AUTH)
             .setPhoneNumber(mPhoneNumber) // Phone number to verify
@@ -89,15 +79,10 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    private fun showProgress(){
+    private fun showProgress() {
         CoroutineScope(Dispatchers.Main).launch {
             progress_registration.visibility = View.VISIBLE
         }
-//        Thread(Runnable {
-//            (activity as RegistrActivity).runOnUiThread(java.lang.Runnable {
-//                progress_registration.visibility = View.VISIBLE
-//            })
-//        }).start()
     }
 
 }

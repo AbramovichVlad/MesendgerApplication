@@ -56,6 +56,7 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings_action_menu_exit -> {
+                AppStates.updateState(AppStates.OFFLINE)
                 AUTH.signOut()
                 (activity as MainActivity).replaceActivity(RegistrActivity())
             }
