@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.SingleChatFragment">
+    tools:context=".ui.fragments.single_chat.SingleChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recycler_view"
@@ -27,13 +27,13 @@
         android:textColor="@color/black"
         android:textColorHint="@color/md_grey_700"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_send_message"
+        app:layout_constraintEnd_toStartOf="@+id/chat_btn_send_message"
         app:layout_constraintStart_toStartOf="parent"
         android:autofillHints="@string/message_autohil"
         android:inputType="text" />
 
     <ImageView
-        android:id="@+id/btn_send_message"
+        android:id="@+id/chat_btn_send_message"
         android:src="@drawable/ic_send_message"
         app:layout_constraintTop_toTopOf="@+id/chat_input_message"
         app:layout_constraintBottom_toBottomOf="parent"

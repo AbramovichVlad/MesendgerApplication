@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun showToast(mesage: String) {
     if (!mesage.isEmpty()) {
@@ -88,4 +89,10 @@ fun initContacts() {
         cursor?.close()
         updatePhonesToDatabase(arryContacts)
     }
+}
+
+fun String.asTime(): String {
+    val time = Date(this.toLong())
+    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return timeFormat.format(time)
 }
