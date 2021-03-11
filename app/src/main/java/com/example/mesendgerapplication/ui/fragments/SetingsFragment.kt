@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.utilities.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -29,10 +28,10 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
         tv_settings_full_name.text = USER.username
         tv_seting_user_status.text = USER.state
         settings_btn_change_login.setOnClickListener {
-            replaceFragment(ChangeUserNameFragment(), R.id.data_container)
+            replaceFragment(ChangeUserNameFragment())
         }
         settings_btn_change_bio.setOnClickListener {
-            replaceFragment(ChangeBIoFragment(), R.id.data_container)
+            replaceFragment(ChangeBIoFragment())
         }
         settings_change_photo.setOnClickListener {
             changePhotoUser()
@@ -58,10 +57,10 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
             R.id.settings_action_menu_exit -> {
                 AppStates.updateState(AppStates.OFFLINE)
                 AUTH.signOut()
-                (activity as MainActivity).replaceActivity(RegistrActivity())
+                restartActivity()
             }
             R.id._settings_action_menu_change_name -> {
-                replaceFragment(ChangeNameFragment(), R.id.data_container)
+                replaceFragment(ChangeNameFragment())
             }
 
         }

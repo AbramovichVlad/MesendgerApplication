@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.databinding.ActivityMainBinding
-import com.example.mesendgerapplication.ui.fragments.ChatsFragment
+import com.example.mesendgerapplication.ui.fragments.MainFragment
+import com.example.mesendgerapplication.ui.fragments.registr.EnterPhoneNumberFragment
 import com.example.mesendgerapplication.ui.objects.AppDrawer
 import com.example.mesendgerapplication.utilities.*
 import kotlinx.coroutines.CoroutineScope
@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFun() {
+        setSupportActionBar(mToolbar)
         if (AUTH.currentUser != null) {
-            setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment(), R.id.data_container, false)
+            replaceFragment(MainFragment(),  false)
         } else {
-            replaceActivity(RegistrActivity())
+            replaceFragment(EnterPhoneNumberFragment(),false)
         }
     }
 

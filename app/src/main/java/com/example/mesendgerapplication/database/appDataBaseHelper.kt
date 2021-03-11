@@ -1,6 +1,7 @@
 package com.example.mesendgerapplication.utilities
 
 import android.net.Uri
+import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
@@ -95,15 +96,15 @@ fun updatePhonesToDatabase(arryContacts: ArrayList<CommonModel>) {
                             .child(dataSnaphot.value.toString())
                             .child(CHILD_ID)
                             .setValue(dataSnaphot.value.toString())
-                            .addOnFailureListener {
-                                showToast(it.message.toString())
+                            .addOnFailureListener { exeption ->
+                                showToast(exeption.message.toString())
                             }
                         REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS)
                             .child(CURRENT_UID)
                             .child(dataSnaphot.value.toString())
                             .child(CHILD_FULLNAME).setValue(contact.fullname)
-                            .addOnFailureListener {
-                                showToast(it.message.toString())
+                            .addOnFailureListener { exeption ->
+                                showToast(exeption.message.toString())
                             }
                     }
                 }
@@ -136,5 +137,42 @@ fun sendMessage(message: String, recivingUserId: String, typeText: String, funct
     REF_DATABASE_ROOT.updateChildren(mapDialog)
         .addOnSuccessListener { function() }
         .addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun updateCurrentUsername(newUserName: String) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_USER_NAME)
+        .setValue(newUserName)
+        .addOnSuccessListener {
+                showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+                deleteOldUsername(newUserName)
+            }.addOnFailureListener { showToast(it.message.toString()) }
+        }
+
+private fun deleteOldUsername(newUserName: String) {
+    REF_DATABASE_ROOT.child(NODE_USERNAMES).child(USER.username).removeValue()
+        .addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            APP_ACTIVITY.supportFragmentManager.popBackStack()
+            USER.username = newUserName
+        }.addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun setBioToDataBase(newBio: String) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHOLD_BIO).setValue(newBio)
+        .addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            USER.bio = newBio
+            APP_ACTIVITY.supportFragmentManager.popBackStack()
+        }.addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun setFullName(fullName: String) {
+    REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_FULLNAME)
+        .setValue(fullName).addOnSuccessListener {
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            USER.fullname = fullName
+            APP_ACTIVITY.mAppDrawer.updateHeader()
+            APP_ACTIVITY.supportFragmentManager.popBackStack()
+        }.addOnFailureListener { showToast(it.message.toString()) }
 }
 

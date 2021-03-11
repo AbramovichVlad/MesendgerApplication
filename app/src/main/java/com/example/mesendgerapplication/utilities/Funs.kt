@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.squareup.picasso.Picasso
@@ -20,33 +21,25 @@ fun showToast(mesage: String) {
     }
 }
 
-fun AppCompatActivity.replaceActivity(activity: AppCompatActivity) {
-    val intent = Intent(this, activity::class.java)
-    startActivity(intent)
-    this.finish()
+fun restartActivity() {
+    val intent = Intent(APP_ACTIVITY, MainActivity::class.java)
+    APP_ACTIVITY.startActivity(intent)
+    APP_ACTIVITY.finish()
 }
 
-fun AppCompatActivity.replaceFragment(fragment: Fragment, idView: Int, stackVal: Boolean = true) {
+fun replaceFragment(fragment: Fragment, stackVal: Boolean = true) {
     if (stackVal) {
-        supportFragmentManager
+        APP_ACTIVITY.supportFragmentManager
             .beginTransaction()
             .addToBackStack(null)
-            .replace(idView, fragment)
+            .replace(R.id.data_container, fragment)
             .commit()
     } else {
-        supportFragmentManager
+        APP_ACTIVITY.supportFragmentManager
             .beginTransaction()
-            .replace(idView, fragment)
+            .replace(R.id.data_container, fragment)
             .commit()
     }
-}
-
-fun Fragment.replaceFragment(fragment: Fragment, idView: Int) {
-    this.fragmentManager
-        ?.beginTransaction()
-        ?.addToBackStack(null)
-        ?.replace(idView, fragment)
-        ?.commit()
 }
 
 fun hideKeyboard() {

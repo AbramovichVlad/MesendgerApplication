@@ -1,11 +1,10 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.fragments.registr
 
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -31,7 +30,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
                     if (it.isSuccessful) {
                         Log.d("tagEnterPhoneNumber", "onVerificationCompleted isSuccessful ")
                         showToast("Добро пожааловат")
-                        (activity as RegistrActivity).replaceActivity(MainActivity())
+                        restartActivity()
                     } else {
                         showToast(it.exception?.message.toString())
                         Log.d("tagEnterPhoneNumber", "onVerificationCompleted else ")
@@ -40,7 +39,7 @@ class EnterPhoneNumberFragment : Fragment(R.layout.fragment_enter_phone_number) 
             }
 
             override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
-                replaceFragment(EnterCodeFragment(mPhoneNumber, id), R.id.registr_data_container)
+                replaceFragment(EnterCodeFragment(mPhoneNumber, id))
                 Log.d("tagEnterPhoneNumber", "onCodeSent")
             }
 

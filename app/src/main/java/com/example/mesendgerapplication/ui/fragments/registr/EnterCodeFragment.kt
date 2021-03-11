@@ -1,10 +1,9 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.fragments.registr
 
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.activitys.RegistrActivity
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.android.synthetic.main.fragment_enter_code.*
@@ -16,7 +15,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     override fun onStart() {
         Log.d("tagEnterPhoneNumber","onStart EnterCodeFragment")
         super.onStart()
-        (activity as RegistrActivity).title = mPhoneNumber
+        APP_ACTIVITY.title = mPhoneNumber
         registr_input_code.addTextChangedListener(AppTextWatcher {
 
             val strCode = registr_input_code.text.toString()
@@ -46,7 +45,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
                         REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
                             .addOnSuccessListener {
                                 showToast("Добро пожааловат")
-                                (activity as RegistrActivity).replaceActivity(MainActivity())
+                                restartActivity()
                             }
                             .addOnFailureListener {
                                 showToast(it.message.toString())
