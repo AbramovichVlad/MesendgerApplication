@@ -7,6 +7,9 @@ import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.fragments.BaseFragment
 import com.example.mesendgerapplication.utilities.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_single_chat.*
@@ -23,8 +26,8 @@ class SingleChatFragment(private val contact: CommonModel) :
     private lateinit var mRefMessages : DatabaseReference
     private lateinit var mAdapter: SingleChatAdapter
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mMessagesListner : AppValueEventListener
-    private  var mListMessages = emptyList<CommonModel>()
+    private lateinit var mMessagesListner : ChildEventListener
+    private  var mListMessages = mutableListOf<CommonModel>()
 
     override fun onResume() {
         super.onResume()
@@ -40,12 +43,12 @@ class SingleChatFragment(private val contact: CommonModel) :
             .child(CURRENT_UID)
             .child(contact.id)
         mRecyclerView.adapter = mAdapter
-        mMessagesListner = AppValueEventListener { dataSnapshot ->
-            mListMessages = dataSnapshot.children.map { it.getCommonModel() }
-            mAdapter.setList(mListMessages)
+
+        mMessagesListner = AppChildEventListener {
+            mAdapter.addItem(it.getCommonModel())
             mRecyclerView.smoothScrollToPosition(mAdapter.itemCount)
         }
-        mRefMessages.addValueEventListener(mMessagesListner)
+        mRefMessages.addChildEventListener(mMessagesListner)
     }
 
     private fun initToolbar() {

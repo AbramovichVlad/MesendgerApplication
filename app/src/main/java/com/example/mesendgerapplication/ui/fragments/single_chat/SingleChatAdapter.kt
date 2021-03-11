@@ -5,16 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.utilities.CURRENT_UID
+import com.example.mesendgerapplication.utilities.DiffUtilCallbacks
 import com.example.mesendgerapplication.utilities.asTime
 import kotlinx.android.synthetic.main.message_item.view.*
 
 class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
-    var mListMessagesCache = emptyList<CommonModel>()
 
+   private  var mListMessagesCache = emptyList<CommonModel>()
+    private lateinit var mDifResault : DiffUtil.DiffResult
 
     class SingleChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         val blockUserMessage: ConstraintLayout = view.block_user_message
@@ -49,8 +52,17 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
 
     override fun getItemCount(): Int = mListMessagesCache.size
 
-    fun setList(list: List<CommonModel>) {
-        mListMessagesCache = list
-        notifyDataSetChanged()
+//    fun setList(list: List<CommonModel>) {
+//
+//     //   notifyDataSetChanged()
+//    }
+
+    fun addItem(item : CommonModel){
+        val newList = mutableListOf<CommonModel>()
+        newList.addAll(mListMessagesCache)
+        newList.add(item)
+        mDifResault = DiffUtil.calculateDiff(DiffUtilCallbacks(mListMessagesCache, newList))
+        mDifResault.dispatchUpdatesTo(this)
+        mListMessagesCache = newList
     }
 }
