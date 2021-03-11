@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.utilities.CURRENT_UID
-import com.example.mesendgerapplication.utilities.DiffUtilCallbacks
 import com.example.mesendgerapplication.utilities.asTime
 import kotlinx.android.synthetic.main.message_item.view.*
 
 class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 
-   private  var mListMessagesCache = emptyList<CommonModel>()
-    private lateinit var mDifResault : DiffUtil.DiffResult
+    private var mListMessagesCache = mutableListOf<CommonModel>()
+    private lateinit var mDifResault: DiffUtil.DiffResult
 
     class SingleChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         val blockUserMessage: ConstraintLayout = view.block_user_message
@@ -52,17 +51,31 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
 
     override fun getItemCount(): Int = mListMessagesCache.size
 
-//    fun setList(list: List<CommonModel>) {
-//
-//     //   notifyDataSetChanged()
-//    }
 
-    fun addItem(item : CommonModel){
-        val newList = mutableListOf<CommonModel>()
-        newList.addAll(mListMessagesCache)
-        newList.add(item)
-        mDifResault = DiffUtil.calculateDiff(DiffUtilCallbacks(mListMessagesCache, newList))
-        mDifResault.dispatchUpdatesTo(this)
-        mListMessagesCache = newList
+    fun addItemToBootm(item: CommonModel, onSucces: () -> Unit) {
+            if (!mListMessagesCache.contains(item)) {
+                mListMessagesCache.add(item)
+                notifyItemInserted(mListMessagesCache.size)
+            }
+        onSucces()
+    }
+
+    fun addItemToTop(item: CommonModel, onSucces: () -> Unit) {
+        if (!mListMessagesCache.contains(item)) {
+            mListMessagesCache.add(item)
+            mListMessagesCache.sortBy { it.timeStamp.toString() }
+            notifyItemInserted(0)
+        }
+        onSucces()
     }
 }
+
+//fun addItem(item: CommonModel) {
+//    val newList = mutableListOf<CommonModel>()
+//    newList.addAll(mListMessagesCache)
+//    if (newList.contains(item)) newList.add(item)
+//    newList.sortBy { it.timeStamp.toString() }
+//    mDifResault = DiffUtil.calculateDiff(DiffUtilCallbacks(mListMessagesCache, newList))
+//    mDifResault.dispatchUpdatesTo(this)
+//    mListMessagesCache = newList
+//}
