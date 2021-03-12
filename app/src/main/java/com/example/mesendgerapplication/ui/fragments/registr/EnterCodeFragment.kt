@@ -13,7 +13,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     Fragment(R.layout.fragment_enter_code) {
 
     override fun onStart() {
-        Log.d("tagEnterPhoneNumber","onStart EnterCodeFragment")
+        Log.d("tagEnterPhoneNumber", "onStart EnterCodeFragment")
         super.onStart()
         APP_ACTIVITY.title = mPhoneNumber
         registr_input_code.addTextChangedListener(AppTextWatcher {
@@ -26,7 +26,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     }
 
     private fun verifiCode() {
-        Log.d("tagEnterPhoneNumber","authverifiCodeUser")
+        Log.d("tagEnterPhoneNumber", "authverifiCodeUser")
         val code = registr_input_code.text.toString()
         val credential = PhoneAuthProvider.getCredential(id, code)
 
@@ -36,21 +36,33 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
                 val dateMap = mutableMapOf<String, Any>()
                 dateMap[CHILD_ID] = uid
                 dateMap[CHILD_PHONE] = mPhoneNumber
-                dateMap[CHILD_USER_NAME] = uid
-                REF_DATABASE_ROOT.child(NODE_PHONES).child(mPhoneNumber).setValue(uid)
-                    .addOnFailureListener {
-                        showToast(it.message.toString())
-                    }
-                    .addOnSuccessListener {
-                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
-                            .addOnSuccessListener {
-                                showToast("Добро пожааловат")
-                                restartActivity()
-                            }
+
+                REF_DATABASE_ROOT
+                    .child(NODE_USERS)
+                    .child(uid).addListenerForSingleValueEvent(AppValueEventListener {
+                        if (!it.hasChild(CHILD_USER_NAME)){
+                            dateMap[CHILD_USER_NAME] = uid
+                        }
+                        REF_DATABASE_ROOT
+                            .child(NODE_PHONES)
+                            .child(mPhoneNumber)
+                            .setValue(uid)
                             .addOnFailureListener {
                                 showToast(it.message.toString())
                             }
-                    }
+                            .addOnSuccessListener {
+                                REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
+                                    .updateChildren(dateMap)
+                                    .addOnSuccessListener {
+                                        showToast("Добро пожааловат")
+                                        restartActivity()
+                                    }
+                                    .addOnFailureListener {
+                                        showToast(it.message.toString())
+                                    }
+                            }
+                    })
+
             } else showToast(it.exception?.message.toString())
         }
     }
