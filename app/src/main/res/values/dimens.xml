@@ -22,5 +22,7 @@
     <dimen name="vertical_large_margin">16dp</dimen>
     <dimen name="settings_reipple_effect_radius">4dp</dimen>
     <dimen name="appPading">10dp</dimen>
+    <dimen name="chat_imgae_width">180dp</dimen>
+    <dimen name="chat_image_hight">180dp</dimen>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.example.mesendgerapplication.ui.fragments.single_chat
 
+import android.app.Activity
+import android.content.Intent
 import android.view.View
 import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.fragments.BaseFragment
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.database.DatabaseReference
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_single_chat.*
 import kotlinx.android.synthetic.main.toolbar_info.view.*
@@ -31,7 +34,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     private var mIsScrolling = false
     private var mSmoothScrollToPosition = true
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var mLinerLayout : LinearLayoutManager
+    private lateinit var mLinerLayout: LinearLayoutManager
 
     override fun onResume() {
         super.onResume()
@@ -43,6 +46,49 @@ class SingleChatFragment(private val contact: CommonModel) :
     private fun initFields() {
         mSwipeRefreshLayout = chat_swipe_refresh
         mLinerLayout = LinearLayoutManager(this.context)
+        chat_input_message.addTextChangedListener(AppTextWatcher {
+            val strText = chat_input_message.text.toString()
+            if (strText.isEmpty()) {
+                chat_btn_send_message.visibility = View.GONE
+                chat_btn_attach.visibility = View.VISIBLE
+            } else {
+                chat_btn_send_message.visibility = View.VISIBLE
+                chat_btn_attach.visibility = View.GONE
+            }
+        })
+        chat_btn_attach.setOnClickListener { attachFile() }
+    }
+
+    private fun attachFile() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .setRequestedSize(250, 250)
+            .start(APP_ACTIVITY, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE &&
+            resultCode == Activity.RESULT_OK &&
+            data != null
+        ) {
+            val uri = CropImage.getActivityResult(data).uri
+            val mesagesKey = REF_DATABASE_ROOT
+                .child(NODE_MESSAGE)
+                .child(CURRENT_UID)
+                .child(contact.id).push().key.toString()
+
+            val path = REF_STORAGE_ROT
+                .child(FOLDER_MESSAGE_IMAGE)
+                .child(mesagesKey)
+
+            putImageToStorage(uri, path) {
+                getUrlFromStorage(path) {
+                sendMessageAsImage(contact.id, it, mesagesKey)
+                    mSmoothScrollToPosition = true
+                }
+            }
+        }
     }
 
     private fun initRecycleView() {

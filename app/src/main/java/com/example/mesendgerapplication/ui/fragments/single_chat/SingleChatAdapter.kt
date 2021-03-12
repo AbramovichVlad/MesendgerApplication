@@ -1,24 +1,25 @@
 package com.example.mesendgerapplication.ui.fragments.single_chat
 
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
-import com.example.mesendgerapplication.utilities.CURRENT_UID
-import com.example.mesendgerapplication.utilities.asTime
+import com.example.mesendgerapplication.utilities.*
 import kotlinx.android.synthetic.main.message_item.view.*
 
 class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 
     private var mListMessagesCache = mutableListOf<CommonModel>()
-    private lateinit var mDifResault: DiffUtil.DiffResult
 
     class SingleChatHolder(view: View) : RecyclerView.ViewHolder(view) {
+        //Text message
         val blockUserMessage: ConstraintLayout = view.block_user_message
         val chatUserMessage: TextView = view.chat_user_message
         val chatUserMessageTime: TextView = view.chat_user_message_time
@@ -26,6 +27,14 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
         val blockRecivingUserMessage: ConstraintLayout = view.block_received_message
         val chatRecivingUserMessage: TextView = view.chat_received_message
         val chatRecivingUserMeassgeTime: TextView = view.chat_received_message_time
+        //Image message
+        val blockUserMessageImage : ConstraintLayout = view.block_user_message_image
+        val chatUserMessageImage : ImageView = view.chat_user_image
+        val chatUserMessageTimeImage : TextView = view.chat_user_message_time_image
+
+        val blockRecivingUserMessageImage : ConstraintLayout = view.block_recivde_user_message_image
+        val chatRecivingUserMessageImage : ImageView = view.chat_reciving_user_image
+        val chatRecivingUserMeassgeTimeImage : TextView = view.chat_received_message_time_image
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleChatHolder {
@@ -34,6 +43,29 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
     }
 
     override fun onBindViewHolder(holder: SingleChatHolder, position: Int) {
+        when(mListMessagesCache[position].type){
+            TYPE_MESSAGE_TEXT -> drawMessageText(holder, position)
+            TYPE_MESSAGE_IMAGE -> drawMessageImage(holder, position)
+        }
+    }
+
+    private fun drawMessageImage(holder: SingleChatHolder, position: Int) {
+        holder.blockUserMessage.visibility = View.GONE
+        holder.blockRecivingUserMessage.visibility = View.GONE
+        if (mListMessagesCache[position].from == CURRENT_UID) {
+            holder.blockRecivingUserMessageImage.visibility = View.GONE
+            holder.blockUserMessageImage.visibility = View.VISIBLE
+            holder.chatUserMessageImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatUserMessageTimeImage.text = mListMessagesCache[position].timeStamp.toString().asTime()
+        } else {
+            holder.blockRecivingUserMessageImage.visibility = View.VISIBLE
+            holder.blockUserMessageImage.visibility = View.GONE
+            holder.chatRecivingUserMessageImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatRecivingUserMeassgeTimeImage.text = mListMessagesCache[position].timeStamp.toString().asTime()
+        }
+    }
+
+    private fun drawMessageText(holder: SingleChatHolder, position: Int) {
         if (mListMessagesCache[position].from == CURRENT_UID) {
             holder.blockUserMessage.visibility = View.VISIBLE
             holder.blockRecivingUserMessage.visibility = View.GONE
@@ -69,7 +101,7 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
         onSucces()
     }
 }
-
+// private lateinit var mDifResault: DiffUtil.DiffResult
 //fun addItem(item: CommonModel) {
 //    val newList = mutableListOf<CommonModel>()
 //    newList.addAll(mListMessagesCache)
