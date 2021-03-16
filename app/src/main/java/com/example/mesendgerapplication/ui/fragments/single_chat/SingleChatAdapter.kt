@@ -1,13 +1,11 @@
 package com.example.mesendgerapplication.ui.fragments.single_chat
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
@@ -55,12 +53,12 @@ class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolde
         if (mListMessagesCache[position].from == CURRENT_UID) {
             holder.blockRecivingUserMessageImage.visibility = View.GONE
             holder.blockUserMessageImage.visibility = View.VISIBLE
-            holder.chatUserMessageImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatUserMessageImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatUserMessageTimeImage.text = mListMessagesCache[position].timeStamp.toString().asTime()
         } else {
             holder.blockRecivingUserMessageImage.visibility = View.VISIBLE
             holder.blockUserMessageImage.visibility = View.GONE
-            holder.chatRecivingUserMessageImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatRecivingUserMessageImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatRecivingUserMeassgeTimeImage.text = mListMessagesCache[position].timeStamp.toString().asTime()
         }
     }

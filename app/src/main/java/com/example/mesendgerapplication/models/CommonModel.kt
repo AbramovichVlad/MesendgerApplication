@@ -13,7 +13,7 @@ data class CommonModel(
     var type: String = "",
     var from: String = "",
     var timeStamp: Any = "",
-    var imageUrl: String = "empty"
+    var fileUrl: String = "empty"
 
 
 ) {
@@ -33,7 +33,7 @@ data class CommonModel(
         result = 31 * result + type.hashCode()
         result = 31 * result + from.hashCode()
         result = 31 * result + timeStamp.hashCode()
-        result = 31 * result + imageUrl.hashCode()
+        result = 31 * result + fileUrl.hashCode()
         return result
     }
 }

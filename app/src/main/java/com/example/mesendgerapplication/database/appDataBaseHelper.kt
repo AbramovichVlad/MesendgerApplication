@@ -42,7 +42,7 @@ const val CHILD_TEXT = "text"
 const val CHILD_TYPE = "type"
 const val CHILD_FROM = "from"
 const val CHILD_TIME_STAMP = "timeStamp"
-const val CHILD_IMAGE_URL = "imageUrl"
+const val CHILD_FILE_URL = "fileUrl"
 
 fun initFirebase() {
     AUTH = FirebaseAuth.getInstance()
@@ -146,10 +146,10 @@ fun updateCurrentUsername(newUserName: String) {
     REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_USER_NAME)
         .setValue(newUserName)
         .addOnSuccessListener {
-                showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
-                deleteOldUsername(newUserName)
-            }.addOnFailureListener { showToast(it.message.toString()) }
-        }
+            showToast(APP_ACTIVITY.getString(R.string.toast_data_update))
+            deleteOldUsername(newUserName)
+        }.addOnFailureListener { showToast(it.message.toString()) }
+}
 
 private fun deleteOldUsername(newUserName: String) {
     REF_DATABASE_ROOT.child(NODE_USERNAMES).child(USER.username).removeValue()
@@ -178,6 +178,7 @@ fun setFullName(fullName: String) {
             APP_ACTIVITY.supportFragmentManager.popBackStack()
         }.addOnFailureListener { showToast(it.message.toString()) }
 }
+
 fun sendMessageAsImage(recivingUserId: String, imageUrl: String, mesagesKey: String) {
     val refDialogUser = "$NODE_MESSAGE/$CURRENT_UID/$recivingUserId"
     val refDialogRecivingUser = "$NODE_MESSAGE/$recivingUserId/$CURRENT_UID"
@@ -187,12 +188,20 @@ fun sendMessageAsImage(recivingUserId: String, imageUrl: String, mesagesKey: Str
     mapMessage[CHILD_TYPE] = TYPE_MESSAGE_IMAGE
     mapMessage[CHILD_ID] = mesagesKey
     mapMessage[CHILD_TIME_STAMP] = ServerValue.TIMESTAMP
-    mapMessage[CHILD_IMAGE_URL] = imageUrl
+    mapMessage[CHILD_FILE_URL] = imageUrl
 
     val mapDialog = hashMapOf<String, Any>()
     mapDialog["$refDialogUser/$mesagesKey"] = mapMessage
     mapDialog["$refDialogRecivingUser/$mesagesKey"] = mapMessage
     REF_DATABASE_ROOT.updateChildren(mapDialog)
         .addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun getMessageKey(id: String) = REF_DATABASE_ROOT.child(NODE_MESSAGE)
+    .child(CURRENT_UID)
+    .child(id).push().key.toString()
+
+fun uploadFileToStorage(uri : Uri, messageKey : String) {
+showToast("record ok ")
 }
 
