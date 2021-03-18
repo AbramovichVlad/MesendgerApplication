@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.example.mesendgerapplication.database.AUTH
+import com.example.mesendgerapplication.database.initFirebase
+import com.example.mesendgerapplication.database.initUser
 import com.example.mesendgerapplication.databinding.ActivityMainBinding
 import com.example.mesendgerapplication.ui.fragments.MainFragment
 import com.example.mesendgerapplication.ui.fragments.registr.EnterPhoneNumberFragment

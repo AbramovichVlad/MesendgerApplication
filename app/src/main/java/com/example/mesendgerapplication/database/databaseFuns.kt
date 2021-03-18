@@ -1,48 +1,36 @@
-package com.example.mesendgerapplication.utilities
+package com.example.mesendgerapplication.database
 
 import android.net.Uri
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
+import com.example.mesendgerapplication.utilities.APP_ACTIVITY
+import com.example.mesendgerapplication.utilities.AppValueEventListener
+import com.example.mesendgerapplication.utilities.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-lateinit var AUTH: FirebaseAuth
-lateinit var REF_DATABASE_ROOT: DatabaseReference
-lateinit var USER: UserModel
-lateinit var CURRENT_UID: String
+fun sendMessageAsFile(recivingUserId: String, fileUrl: String, mesagesKey: String, typeMessage: String) {
+    val refDialogUser = "$NODE_MESSAGE/$CURRENT_UID/$recivingUserId"
+    val refDialogRecivingUser = "$NODE_MESSAGE/$recivingUserId/$CURRENT_UID"
 
-lateinit var REF_STORAGE_ROT: StorageReference
+    val mapMessage = hashMapOf<String, Any>()
+    mapMessage[CHILD_FROM] = CURRENT_UID
+    mapMessage[CHILD_TYPE] = typeMessage
+    mapMessage[CHILD_ID] = mesagesKey
+    mapMessage[CHILD_TIME_STAMP] = ServerValue.TIMESTAMP
+    mapMessage[CHILD_FILE_URL] = fileUrl
 
-const val TYPE_TEXT = "text"
-
-const val NODE_USERS = "users"
-const val NODE_MESSAGE = "messages"
-const val NODE_USERNAMES = "usernames"
-const val NODE_PHONES = "phones"
-const val NODE_PHONES_CONTACTS = "phones_contacts"
-
-const val FOLDER_PROFILE_IMAGE = "profile_image"
-const val FOLDER_MESSAGE_IMAGE = "messag_image"
-
-const val CHILD_ID = "id"
-const val CHILD_PHONE = "phone"
-const val CHILD_USER_NAME = "username"
-const val CHILD_FULLNAME = "fullname"
-const val CHOLD_BIO = "bio"
-const val CHILD_PHOTO_URL = "photoUrl"
-const val CHILD_STATE = "state"
-
-const val CHILD_TEXT = "text"
-const val CHILD_TYPE = "type"
-const val CHILD_FROM = "from"
-const val CHILD_TIME_STAMP = "timeStamp"
-const val CHILD_FILE_URL = "fileUrl"
+    val mapDialog = hashMapOf<String, Any>()
+    mapDialog["$refDialogUser/$mesagesKey"] = mapMessage
+    mapDialog["$refDialogRecivingUser/$mesagesKey"] = mapMessage
+    REF_DATABASE_ROOT.updateChildren(mapDialog)
+        .addOnFailureListener { showToast(it.message.toString()) }
+}
 
 fun initFirebase() {
     AUTH = FirebaseAuth.getInstance()
@@ -68,7 +56,7 @@ inline fun putUrlToDataBase(url: String, crossinline function: () -> Unit) {
         .addOnFailureListener { showToast(it.message.toString()) }
 }
 
-inline fun putImageToStorage(uri: Uri, path: StorageReference, crossinline function: () -> Unit) {
+inline fun putFileToStorage(uri: Uri, path: StorageReference, crossinline function: () -> Unit) {
     path.putFile(uri).addOnSuccessListener {
         function()
     }
@@ -85,7 +73,6 @@ inline fun initUser(crossinline function: () -> Unit) {
             function()
         })
 }
-
 
 fun updatePhonesToDatabase(arryContacts: ArrayList<CommonModel>) {
     if (AUTH.currentUser != null) {
@@ -114,7 +101,6 @@ fun updatePhonesToDatabase(arryContacts: ArrayList<CommonModel>) {
         })
     }
 }
-
 
 fun DataSnapshot.getCommonModel(): CommonModel =
     this.getValue(CommonModel::class.java) ?: CommonModel()
@@ -179,29 +165,18 @@ fun setFullName(fullName: String) {
         }.addOnFailureListener { showToast(it.message.toString()) }
 }
 
-fun sendMessageAsImage(recivingUserId: String, imageUrl: String, mesagesKey: String) {
-    val refDialogUser = "$NODE_MESSAGE/$CURRENT_UID/$recivingUserId"
-    val refDialogRecivingUser = "$NODE_MESSAGE/$recivingUserId/$CURRENT_UID"
-
-    val mapMessage = hashMapOf<String, Any>()
-    mapMessage[CHILD_FROM] = CURRENT_UID
-    mapMessage[CHILD_TYPE] = TYPE_MESSAGE_IMAGE
-    mapMessage[CHILD_ID] = mesagesKey
-    mapMessage[CHILD_TIME_STAMP] = ServerValue.TIMESTAMP
-    mapMessage[CHILD_FILE_URL] = imageUrl
-
-    val mapDialog = hashMapOf<String, Any>()
-    mapDialog["$refDialogUser/$mesagesKey"] = mapMessage
-    mapDialog["$refDialogRecivingUser/$mesagesKey"] = mapMessage
-    REF_DATABASE_ROOT.updateChildren(mapDialog)
-        .addOnFailureListener { showToast(it.message.toString()) }
-}
-
 fun getMessageKey(id: String) = REF_DATABASE_ROOT.child(NODE_MESSAGE)
     .child(CURRENT_UID)
     .child(id).push().key.toString()
 
-fun uploadFileToStorage(uri : Uri, messageKey : String) {
-showToast("record ok ")
-}
+fun uploadFileToStorage(uri : Uri, messageKey : String, recivingId : String, typeMessage : String) {
+    val path = REF_STORAGE_ROT
+        .child(FOLDER_FILES)
+        .child(messageKey)
 
+    putFileToStorage(uri, path) {
+        getUrlFromStorage(path) {
+            sendMessageAsFile(recivingId, it, messageKey, typeMessage)
+        }
+    }
+}

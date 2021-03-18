@@ -3,8 +3,8 @@ package com.example.mesendgerapplication.ui.fragments.registr
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.AUTH
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential

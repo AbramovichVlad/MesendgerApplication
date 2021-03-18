@@ -1,5 +1,7 @@
 package com.example.mesendgerapplication.utilities
 
+import com.example.mesendgerapplication.database.*
+
 enum class AppStates(val state : String) {
     ONLINE("в сети"),
     OFFLINE("был недавно"),

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.ui.fragments.single_chat.SingleChatFragment
 import com.example.mesendgerapplication.utilities.*

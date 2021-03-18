@@ -9,7 +9,7 @@ import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.ui.fragments.ContactsFragment
 import com.example.mesendgerapplication.ui.fragments.SetingsFragment
 import com.example.mesendgerapplication.utilities.APP_ACTIVITY
-import com.example.mesendgerapplication.utilities.USER
+import com.example.mesendgerapplication.database.USER
 import com.example.mesendgerapplication.utilities.downloadAndSetImage
 import com.example.mesendgerapplication.utilities.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader

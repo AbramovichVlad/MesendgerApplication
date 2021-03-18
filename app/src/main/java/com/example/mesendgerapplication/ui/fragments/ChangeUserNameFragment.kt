@@ -1,6 +1,7 @@
 package com.example.mesendgerapplication.ui.fragments
 
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.utilities.*
 import kotlinx.android.synthetic.main.fragment_change_user_name.*
 import java.util.*

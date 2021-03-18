@@ -2,8 +2,8 @@ package com.example.mesendgerapplication.ui.fragments.registr
 
 import android.util.Log
 import androidx.fragment.app.Fragment
-import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.android.synthetic.main.fragment_enter_code.*

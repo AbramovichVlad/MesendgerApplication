@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.fragments.BaseFragment
+import com.example.mesendgerapplication.ui.fragments.message_recycler_view.views.AppViewFactory
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -82,7 +84,8 @@ class SingleChatFragment(private val contact: CommonModel) :
                         chat_input_message.setText("")
                         chat_btn_voice.colorFilter = null
                         mAppVoiceRecorder.stopRecord{ file, messageKey ->
-                            uploadFileToStorage(Uri.fromFile(file), messageKey)
+                            uploadFileToStorage(Uri.fromFile(file), messageKey, contact.id, TYPE_MESSAGE_VOICE)
+                            mSmoothScrollToPosition = true
                         }
                     }
                 }
@@ -106,17 +109,8 @@ class SingleChatFragment(private val contact: CommonModel) :
         ) {
             val uri = CropImage.getActivityResult(data).uri
             val mesagesKey = getMessageKey(contact.id)
-
-            val path = REF_STORAGE_ROT
-                .child(FOLDER_MESSAGE_IMAGE)
-                .child(mesagesKey)
-
-            putImageToStorage(uri, path) {
-                getUrlFromStorage(path) {
-                    sendMessageAsImage(contact.id, it, mesagesKey)
-                    mSmoothScrollToPosition = true
-                }
-            }
+            uploadFileToStorage(uri, mesagesKey, contact.id, TYPE_MESSAGE_IMAGE)
+            mSmoothScrollToPosition = true
         }
     }
 
@@ -138,11 +132,11 @@ class SingleChatFragment(private val contact: CommonModel) :
         mMessagesListner = AppChildEventListener {
             val message = it.getCommonModel()
             if (mSmoothScrollToPosition) {
-                mAdapter.addItemToBootm(message) {
+                mAdapter.addItemToBootm(AppViewFactory.getView(message)) {
                     mRecyclerView.smoothScrollToPosition(mAdapter.itemCount)
                 }
             } else {
-                mAdapter.addItemToTop(message) {
+                mAdapter.addItemToTop(AppViewFactory.getView(message)) {
                     mSwipeRefreshLayout.isRefreshing = false
                 }
             }

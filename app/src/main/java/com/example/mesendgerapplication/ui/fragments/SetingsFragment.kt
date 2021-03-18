@@ -5,8 +5,8 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.utilities.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -76,7 +76,7 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
             val uri = CropImage.getActivityResult(data).uri
             val path = REF_STORAGE_ROT.child(FOLDER_PROFILE_IMAGE)
                 .child(CURRENT_UID)
-            putImageToStorage(uri, path) {
+            putFileToStorage(uri, path) {
                 getUrlFromStorage(path) {
                     putUrlToDataBase(it) {
                         seting_user_photo.downloadAndSetImage(it)
