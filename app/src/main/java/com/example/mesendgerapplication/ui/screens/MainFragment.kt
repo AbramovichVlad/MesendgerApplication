@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.screens
 
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.R

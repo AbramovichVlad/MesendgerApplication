@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ChangeUserNameFragment">
+    tools:context=".ui.screens.ChangeUserNameFragment">
 
     <EditText
         android:id="@+id/settings_et_changeUser_name"
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:autofillHints="@string/auto_fill_settings_et_change_user_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

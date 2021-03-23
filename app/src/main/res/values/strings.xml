@@ -41,4 +41,12 @@
     <string name="toast_input_message">Введите сообщенеи</string>
     <string name="chats_text">Чаты</string>
     <string name="content_description_image_message">message_image</string>
+    <string name="auto_fil_change_bio">settingchangebio</string>
+    <string name="autofilsetiings_change_name">setiings_change_name</string>
+    <string name="autofillsetiings_change_surname">setiings_change_surname</string>
+    <string name="auto_fill_settings_et_change_user_name">settings_et_changeUser_name</string>
+    <string name="chat_user_btn_play_decripton">chat_user_btn_play</string>
+    <string name="chat_user_btn_stop_description">chat_user_btn_stop</string>
+    <string name="chat_reciving_user_btn_play_description">chat_reciving_user_btn_play</string>
+    <string name="chat_reciving_user_btn_stop_description">chat_reciving_user_btn_stop</string>
 </resources>

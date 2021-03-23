@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments.message_recycler_view.views
+package com.example.mesendgerapplication.ui.message_recycler_view.views
 
 interface MessageView {
 
@@ -13,6 +13,8 @@ interface MessageView {
         get() = 0
         val MESSAGE_TEXT : Int
         get() = 1
+        val MESSAGE_VOICE : Int
+            get() = 2
     }
 
     fun getTypeView() : Int

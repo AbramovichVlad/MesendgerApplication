@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.ui.fragments.ContactsFragment
-import com.example.mesendgerapplication.ui.fragments.SetingsFragment
+import com.example.mesendgerapplication.ui.screens.ContactsFragment
+import com.example.mesendgerapplication.ui.screens.SetingsFragment
 import com.example.mesendgerapplication.utilities.APP_ACTIVITY
 import com.example.mesendgerapplication.database.USER
 import com.example.mesendgerapplication.utilities.downloadAndSetImage

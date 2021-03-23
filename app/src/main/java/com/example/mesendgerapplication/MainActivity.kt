@@ -9,8 +9,8 @@ import com.example.mesendgerapplication.database.AUTH
 import com.example.mesendgerapplication.database.initFirebase
 import com.example.mesendgerapplication.database.initUser
 import com.example.mesendgerapplication.databinding.ActivityMainBinding
-import com.example.mesendgerapplication.ui.fragments.MainFragment
-import com.example.mesendgerapplication.ui.fragments.registr.EnterPhoneNumberFragment
+import com.example.mesendgerapplication.ui.screens.MainFragment
+import com.example.mesendgerapplication.ui.screens.registr.EnterPhoneNumberFragment
 import com.example.mesendgerapplication.ui.objects.AppDrawer
 import com.example.mesendgerapplication.utilities.*
 import kotlinx.coroutines.CoroutineScope

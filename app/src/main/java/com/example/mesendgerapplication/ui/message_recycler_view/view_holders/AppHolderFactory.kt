@@ -1,10 +1,10 @@
-package com.example.mesendgerapplication.ui.fragments.message_recycler_view.view_holders
+package com.example.mesendgerapplication.ui.message_recycler_view.view_holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
-import com.example.mesendgerapplication.ui.fragments.message_recycler_view.views.MessageView
+import com.example.mesendgerapplication.ui.message_recycler_view.views.MessageView
 
 class AppHolderFactory {
 
@@ -15,6 +15,11 @@ class AppHolderFactory {
                     val view = LayoutInflater.from(parent.context)
                         .inflate(R.layout.message_item_image, parent, false)
                     HolderImageMessage(view)
+                }
+                MessageView.MESSAGE_VOICE -> {
+                    val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.message_item_voice, parent, false)
+                    HolderVoiceMessage(view)
                 }
                 else -> {
                     val view = LayoutInflater.from(parent.context)

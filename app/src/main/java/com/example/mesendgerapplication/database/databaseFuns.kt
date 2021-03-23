@@ -13,8 +13,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
-fun sendMessageAsFile(recivingUserId: String, fileUrl: String, mesagesKey: String, typeMessage: String) {
+fun sendMessageAsFile(
+    recivingUserId: String,
+    fileUrl: String,
+    mesagesKey: String,
+    typeMessage: String
+) {
     val refDialogUser = "$NODE_MESSAGE/$CURRENT_UID/$recivingUserId"
     val refDialogRecivingUser = "$NODE_MESSAGE/$recivingUserId/$CURRENT_UID"
 
@@ -169,7 +175,7 @@ fun getMessageKey(id: String) = REF_DATABASE_ROOT.child(NODE_MESSAGE)
     .child(CURRENT_UID)
     .child(id).push().key.toString()
 
-fun uploadFileToStorage(uri : Uri, messageKey : String, recivingId : String, typeMessage : String) {
+fun uploadFileToStorage(uri: Uri, messageKey: String, recivingId: String, typeMessage: String) {
     val path = REF_STORAGE_ROT
         .child(FOLDER_FILES)
         .child(messageKey)
@@ -179,4 +185,11 @@ fun uploadFileToStorage(uri : Uri, messageKey : String, recivingId : String, typ
             sendMessageAsFile(recivingId, it, messageKey, typeMessage)
         }
     }
+}
+
+fun getFileFromStorage(mFile: File, fileUrl: String, function: () -> Unit) {
+    val path = REF_STORAGE_ROT.storage.getReferenceFromUrl(fileUrl)
+    path.getFile(mFile)
+        .addOnSuccessListener { function() }
+        .addOnFailureListener { showToast(it.message.toString()) }
 }

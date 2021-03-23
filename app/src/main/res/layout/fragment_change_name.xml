@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ChangeNameFragment">
+    tools:context=".ui.screens.ChangeNameFragment">
 
 
     <EditText
@@ -16,7 +16,8 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="@string/autofilsetiings_change_name" />
 
     <EditText
         android:id="@+id/setiings_change_surname"
@@ -27,6 +28,7 @@
         android:hint="@string/settings_hint_surname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setiings_change_name" />
+        app:layout_constraintTop_toBottomOf="@+id/setiings_change_name"
+        android:autofillHints="@string/autofillsetiings_change_surname" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

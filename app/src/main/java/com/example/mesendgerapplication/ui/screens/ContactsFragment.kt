@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.screens
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.models.CommonModel
-import com.example.mesendgerapplication.ui.fragments.single_chat.SingleChatFragment
+import com.example.mesendgerapplication.ui.screens.single_chat.SingleChatFragment
 import com.example.mesendgerapplication.utilities.*
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions

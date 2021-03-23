@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments.registr
+package com.example.mesendgerapplication.ui.screens.registr
 
 import android.util.Log
 import androidx.fragment.app.Fragment

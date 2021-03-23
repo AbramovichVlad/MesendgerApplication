@@ -25,4 +25,9 @@
     <dimen name="chat_imgae_width">180dp</dimen>
     <dimen name="chat_image_hight">180dp</dimen>
 
+    <dimen name="chat_voice_width">180dp</dimen>
+    <dimen name="chat_voice_hight">50dp</dimen>
+    <dimen name="btn_voice_width">50dp</dimen>
+    <dimen name="btn_voice_hight">50dp</dimen>
+
 </resources>

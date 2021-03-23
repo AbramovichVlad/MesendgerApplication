@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.screens
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent

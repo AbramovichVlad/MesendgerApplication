@@ -1,9 +1,8 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.screens
 
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.USER
 import com.example.mesendgerapplication.database.setBioToDataBase
-import com.example.mesendgerapplication.utilities.*
 import kotlinx.android.synthetic.main.fragment_change_bio.*
 
 class ChangeBIoFragment : ChangeBaseFragment(R.layout.fragment_change_bio) {

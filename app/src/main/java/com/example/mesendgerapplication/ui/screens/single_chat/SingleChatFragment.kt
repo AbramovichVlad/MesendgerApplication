@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments.single_chat
+package com.example.mesendgerapplication.ui.screens.single_chat
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,8 +15,8 @@ import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
-import com.example.mesendgerapplication.ui.fragments.BaseFragment
-import com.example.mesendgerapplication.ui.fragments.message_recycler_view.views.AppViewFactory
+import com.example.mesendgerapplication.ui.screens.BaseFragment
+import com.example.mesendgerapplication.ui.message_recycler_view.views.AppViewFactory
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -208,5 +208,6 @@ class SingleChatFragment(private val contact: CommonModel) :
     override fun onDestroy() {
         super.onDestroy()
         mAppVoiceRecorder.releseReorder()
+        mAdapter.destroy()
     }
 }

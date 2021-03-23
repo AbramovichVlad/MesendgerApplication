@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.fragments
+package com.example.mesendgerapplication.ui.screens
 
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.USER
