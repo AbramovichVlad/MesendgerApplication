@@ -49,4 +49,6 @@
     <string name="chat_user_btn_stop_description">chat_user_btn_stop</string>
     <string name="chat_reciving_user_btn_play_description">chat_reciving_user_btn_play</string>
     <string name="chat_reciving_user_btn_stop_description">chat_reciving_user_btn_stop</string>
+    <string name="btn_attach_image">btn_attach_image</string>
+    <string name="btn_attach_file">btn_attach_file</string>
 </resources>

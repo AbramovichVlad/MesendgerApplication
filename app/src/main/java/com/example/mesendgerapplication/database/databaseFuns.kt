@@ -19,7 +19,8 @@ fun sendMessageAsFile(
     recivingUserId: String,
     fileUrl: String,
     mesagesKey: String,
-    typeMessage: String
+    typeMessage: String,
+    filename: String
 ) {
     val refDialogUser = "$NODE_MESSAGE/$CURRENT_UID/$recivingUserId"
     val refDialogRecivingUser = "$NODE_MESSAGE/$recivingUserId/$CURRENT_UID"
@@ -30,6 +31,7 @@ fun sendMessageAsFile(
     mapMessage[CHILD_ID] = mesagesKey
     mapMessage[CHILD_TIME_STAMP] = ServerValue.TIMESTAMP
     mapMessage[CHILD_FILE_URL] = fileUrl
+    mapMessage[CHILD_TEXT] = filename
 
     val mapDialog = hashMapOf<String, Any>()
     mapDialog["$refDialogUser/$mesagesKey"] = mapMessage
@@ -175,14 +177,20 @@ fun getMessageKey(id: String) = REF_DATABASE_ROOT.child(NODE_MESSAGE)
     .child(CURRENT_UID)
     .child(id).push().key.toString()
 
-fun uploadFileToStorage(uri: Uri, messageKey: String, recivingId: String, typeMessage: String) {
+fun uploadFileToStorage(
+    uri: Uri,
+    messageKey: String,
+    recivingId: String,
+    typeMessage: String,
+    fileName: String = ""
+) {
     val path = REF_STORAGE_ROT
         .child(FOLDER_FILES)
         .child(messageKey)
 
     putFileToStorage(uri, path) {
         getUrlFromStorage(path) {
-            sendMessageAsFile(recivingId, it, messageKey, typeMessage)
+            sendMessageAsFile(recivingId, it, messageKey, typeMessage, fileName)
         }
     }
 }
@@ -191,5 +199,26 @@ fun getFileFromStorage(mFile: File, fileUrl: String, function: () -> Unit) {
     val path = REF_STORAGE_ROT.storage.getReferenceFromUrl(fileUrl)
     path.getFile(mFile)
         .addOnSuccessListener { function() }
+        .addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun saveToMainList(id: String, type: String) {
+    val refUser = "$NODE_MAIN_LISt/$CURRENT_UID/$id"
+    val refReceivedUser = "$NODE_MAIN_LISt/$id/$CURRENT_UID"
+
+    val mapUser = hashMapOf<String,Any>()
+    val mapReceivedUser = hashMapOf<String,Any>()
+
+    mapUser[CHILD_ID] = id
+    mapUser[CHILD_TYPE] = type
+
+    mapReceivedUser[CHILD_ID] = CURRENT_UID
+    mapReceivedUser[CHILD_TYPE] = type
+
+    val commonMap = hashMapOf<String, Any>()
+    commonMap[refUser] = mapUser
+    commonMap[refReceivedUser] = mapReceivedUser
+
+    REF_DATABASE_ROOT.updateChildren(commonMap)
         .addOnFailureListener { showToast(it.message.toString()) }
 }

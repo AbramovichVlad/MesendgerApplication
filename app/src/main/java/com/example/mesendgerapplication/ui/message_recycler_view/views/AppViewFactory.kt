@@ -1,6 +1,7 @@
 package com.example.mesendgerapplication.ui.message_recycler_view.views
 
 import com.example.mesendgerapplication.models.CommonModel
+import com.example.mesendgerapplication.utilities.TYPE_MESSAGE_FILE
 import com.example.mesendgerapplication.utilities.TYPE_MESSAGE_IMAGE
 import com.example.mesendgerapplication.utilities.TYPE_MESSAGE_VOICE
 
@@ -20,6 +21,13 @@ class AppViewFactory {
                     messageItem.from,
                     messageItem.timeStamp.toString(),
                     messageItem.fileUrl
+                )
+                TYPE_MESSAGE_FILE -> ViewFileMessage(
+                    messageItem.id,
+                    messageItem.from,
+                    messageItem.timeStamp.toString(),
+                    messageItem.fileUrl,
+                    messageItem.text
                 )
                 else -> ViewTextMessage(
                     messageItem.id,

@@ -2,17 +2,19 @@ package com.example.mesendgerapplication.utilities
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.provider.ContactsContract
+import android.provider.OpenableColumns
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.updatePhonesToDatabase
 import com.example.mesendgerapplication.models.CommonModel
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -89,4 +91,21 @@ fun String.asTime(): String {
     val time = Date(this.toLong())
     val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     return timeFormat.format(time)
+}
+
+fun getFileNameFromUri(uri: Uri): String {
+    var result = ""
+    val curcor = APP_ACTIVITY.contentResolver.query(uri, null, null, null, null)
+    try {
+        if (curcor != null && curcor.moveToFirst()) {
+            result = curcor.getString(curcor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        }
+    } catch (e : Exception){
+        showToast(e.message.toString())
+        result = "unknow name"
+    }
+    finally {
+        curcor?.close()
+        return result
+    }
 }
