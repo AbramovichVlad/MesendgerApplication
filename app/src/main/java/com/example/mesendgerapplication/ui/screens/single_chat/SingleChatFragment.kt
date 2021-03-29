@@ -3,15 +3,23 @@ package com.example.mesendgerapplication.ui.screens.single_chat
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
+import com.example.mesendgerapplication.databinding.ActivityMainBinding
+import com.example.mesendgerapplication.databinding.ChoiseUploadBinding
+import com.example.mesendgerapplication.databinding.FragmentSingleChatBinding
+import com.example.mesendgerapplication.databinding.ToolbarInfoBinding
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.message_recycler_view.views.AppViewFactory
@@ -20,10 +28,6 @@ import com.example.mesendgerapplication.utilities.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.choise_upload.*
-import kotlinx.android.synthetic.main.fragment_single_chat.*
-import kotlinx.android.synthetic.main.toolbar_info.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +35,10 @@ import kotlinx.coroutines.launch
 
 class SingleChatFragment(private val contact: CommonModel) :
     BaseFragment(R.layout.fragment_single_chat) {
+
+    private lateinit var binding: FragmentSingleChatBinding
+    private lateinit var bindingBotoomSheetBehavior: ChoiseUploadBinding
+    private lateinit var bindingToolbar: ToolbarInfoBinding
 
     private lateinit var mListnerInfoToolbar: AppValueEventListener
     private lateinit var mRecivingUser: UserModel
@@ -55,32 +63,39 @@ class SingleChatFragment(private val contact: CommonModel) :
         initRecycleView()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSingleChatBinding.bind(view)
+        bindingBotoomSheetBehavior = ChoiseUploadBinding.bind(view)
+        bindingToolbar = ToolbarInfoBinding.bind(view)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun initFields() {
-        mBottomBehavior = BottomSheetBehavior.from(bottom_sheet_choise)
+        mBottomBehavior = BottomSheetBehavior.from(bindingBotoomSheetBehavior.bottomSheetChoise)
         mBottomBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         mAppVoiceRecorder = AppVoiceRecorder()
-        mSwipeRefreshLayout = chat_swipe_refresh
+        mSwipeRefreshLayout = binding.chatSwipeRefresh
         mLinerLayout = LinearLayoutManager(this.context)
-        chat_input_message.addTextChangedListener(AppTextWatcher {
-            val strText = chat_input_message.text.toString()
+        binding.chatInputMessage.addTextChangedListener(AppTextWatcher {
+            val strText = binding.chatInputMessage.text.toString()
             if (strText.isEmpty() || strText == "Запись") {
-                chat_btn_send_message.visibility = View.GONE
-                chat_btn_attach.visibility = View.VISIBLE
-                chat_btn_voice.visibility = View.VISIBLE
+                binding.chatBtnSendMessage.visibility = View.GONE
+                binding.chatBtnAttach.visibility = View.VISIBLE
+                binding.chatBtnVoice.visibility = View.VISIBLE
             } else {
-                chat_btn_send_message.visibility = View.VISIBLE
-                chat_btn_attach.visibility = View.GONE
-                chat_btn_voice.visibility = View.GONE
+                binding.chatBtnSendMessage.visibility = View.VISIBLE
+                binding.chatBtnAttach.visibility = View.GONE
+                binding.chatBtnVoice.visibility = View.GONE
             }
         })
-        chat_btn_attach.setOnClickListener { attach() }
+        binding.chatBtnAttach.setOnClickListener { attach() }
         CoroutineScope(Dispatchers.IO).launch {
-            chat_btn_voice.setOnTouchListener { view, event ->
+            binding.chatBtnVoice.setOnTouchListener { view, event ->
                 if (checkPremision(RECORD_AUDIO)) {
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        chat_input_message.setText("Запись")
-                        chat_btn_voice.setColorFilter(
+                        binding.chatInputMessage.setText("Запись")
+                        binding.chatBtnVoice.setColorFilter(
                             ContextCompat.getColor(
                                 APP_ACTIVITY,
                                 R.color.primary
@@ -90,8 +105,8 @@ class SingleChatFragment(private val contact: CommonModel) :
                         mAppVoiceRecorder.startRecord(mesagesKey)
                     } else if (event.action == MotionEvent.ACTION_UP) {
                         //stop record
-                        chat_input_message.setText("")
-                        chat_btn_voice.colorFilter = null
+                        binding.chatInputMessage.setText("")
+                        binding.chatBtnVoice.colorFilter = null
                         mAppVoiceRecorder.stopRecord { file, messageKey ->
                             uploadFileToStorage(
                                 Uri.fromFile(file),
@@ -110,8 +125,8 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     private fun attach() {
         mBottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        btn_attach_image.setOnClickListener { attachImage() }
-        btn_attach_file.setOnClickListener { attachFile() }
+        bindingBotoomSheetBehavior.btnAttachImage.setOnClickListener { attachImage() }
+        bindingBotoomSheetBehavior.btnAttachFile.setOnClickListener { attachFile() }
     }
 
     private fun attachFile() {
@@ -149,7 +164,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     }
 
     private fun initRecycleView() {
-        mRecyclerView = chat_recycler_view
+        mRecyclerView = binding.chatRecyclerView
         mAdapter = SingleChatAdapter()
         mRefMessages = REF_DATABASE_ROOT
             .child(NODE_MESSAGE)
@@ -199,7 +214,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     }
 
     private fun initToolbar() {
-        mToolbarInfo = APP_ACTIVITY.mToolbar.toolbar_info
+        mToolbarInfo = ActivityMainBinding.bind(tol)
         mToolbarInfo.visibility = View.VISIBLE
         mListnerInfoToolbar = AppValueEventListener {
             mRecivingUser = it.getUserModel()
@@ -207,14 +222,14 @@ class SingleChatFragment(private val contact: CommonModel) :
         }
         mRefUser = REF_DATABASE_ROOT.child(NODE_USERS).child(contact.id)
         mRefUser.addValueEventListener(mListnerInfoToolbar)
-        chat_btn_send_message.setOnClickListener {
-            val message = chat_input_message.text.toString()
+        binding.chatBtnSendMessage.setOnClickListener {
+            val message = binding.chatInputMessage.text.toString()
             if (message.isEmpty()) {
                 showToast(getString(R.string.toast_input_message))
             } else {
                 sendMessage(message, contact.id, TYPE_TEXT) {
                     saveToMainList(contact.id, TYPE_CHAT)
-                    chat_input_message.setText("")
+                    binding.chatInputMessage.setText("")
                 }
             }
         }
@@ -239,6 +254,7 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         mAppVoiceRecorder.releseReorder()
         mAdapter.destroy()
     }
