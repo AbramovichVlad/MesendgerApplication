@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.screens
+package com.example.mesendgerapplication.ui.screens.contacts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.databinding.ContactItemBinding
 import com.example.mesendgerapplication.databinding.FragmentContactsBinding
 import com.example.mesendgerapplication.models.CommonModel
+import com.example.mesendgerapplication.ui.screens.base.BaseFragment
 import com.example.mesendgerapplication.ui.screens.single_chat.SingleChatFragment
 import com.example.mesendgerapplication.utilities.APP_ACTIVITY
 import com.example.mesendgerapplication.utilities.AppValueEventListener

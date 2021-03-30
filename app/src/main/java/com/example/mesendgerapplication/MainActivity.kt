@@ -9,9 +9,9 @@ import com.example.mesendgerapplication.database.AUTH
 import com.example.mesendgerapplication.database.initFirebase
 import com.example.mesendgerapplication.database.initUser
 import com.example.mesendgerapplication.databinding.ActivityMainBinding
+import com.example.mesendgerapplication.ui.objects.AppDrawer
 import com.example.mesendgerapplication.ui.screens.main_list.MainListFragment
 import com.example.mesendgerapplication.ui.screens.registr.EnterPhoneNumberFragment
-import com.example.mesendgerapplication.ui.objects.AppDrawer
 import com.example.mesendgerapplication.utilities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         APP_ACTIVITY = this
         initFirebase()
-        initUser(){
+        initUser() {
             CoroutineScope(Dispatchers.IO).launch {
                 initContacts()
             }
@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         if (AUTH.currentUser != null) {
             mAppDrawer.create()
-            replaceFragment(MainListFragment(),  false)
+            replaceFragment(MainListFragment(), false)
         } else {
-            replaceFragment(EnterPhoneNumberFragment(),false)
+            replaceFragment(EnterPhoneNumberFragment(), false)
         }
     }
 
@@ -69,7 +69,11 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(ContextCompat.checkSelfPermission(APP_ACTIVITY, READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(
+                APP_ACTIVITY,
+                READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             initContacts()
         }
     }

@@ -6,7 +6,7 @@ import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.USER
 import com.example.mesendgerapplication.database.setBioToDataBase
 import com.example.mesendgerapplication.databinding.FragmentChangeBioBinding
-import com.example.mesendgerapplication.ui.screens.ChangeBaseFragment
+import com.example.mesendgerapplication.ui.screens.base.ChangeBaseFragment
 
 class ChangeBIoFragment : ChangeBaseFragment(R.layout.fragment_change_bio) {
 

@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.screens
+package com.example.mesendgerapplication.ui.screens.base
 
 import android.view.Menu
 import android.view.MenuInflater

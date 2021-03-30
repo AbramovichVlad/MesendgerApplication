@@ -10,7 +10,7 @@ import android.view.View
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
 import com.example.mesendgerapplication.databinding.FragmentSetingsBinding
-import com.example.mesendgerapplication.ui.screens.BaseFragment
+import com.example.mesendgerapplication.ui.screens.base.BaseFragment
 import com.example.mesendgerapplication.utilities.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView

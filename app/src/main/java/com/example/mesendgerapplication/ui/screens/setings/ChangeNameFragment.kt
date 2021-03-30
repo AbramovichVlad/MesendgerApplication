@@ -6,7 +6,7 @@ import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.USER
 import com.example.mesendgerapplication.database.setFullName
 import com.example.mesendgerapplication.databinding.FragmentChangeNameBinding
-import com.example.mesendgerapplication.ui.screens.ChangeBaseFragment
+import com.example.mesendgerapplication.ui.screens.base.ChangeBaseFragment
 import com.example.mesendgerapplication.utilities.showToast
 
 

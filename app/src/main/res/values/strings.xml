@@ -57,4 +57,9 @@
     <string name="chat_clear_toast">Чат очищен</string>
     <string name="mai_list_name">full name contact</string>
     <string name="main_list_messages">last message</string>
+    <string name="create_group">Создать группу</string>
+    <string name="add_users_in_group">Добавить участника</string>
+    <string name="create_group_photo">create_group_photo</string>
+    <string name="create_group_btn_complet">create_group_btn_complet</string>
+    <string name="add_contacts_btn">add_contacts_btn</string>
 </resources>

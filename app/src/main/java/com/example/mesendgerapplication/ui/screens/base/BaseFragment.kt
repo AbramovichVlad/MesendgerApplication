@@ -1,4 +1,4 @@
-package com.example.mesendgerapplication.ui.screens
+package com.example.mesendgerapplication.ui.screens.base
 
 import android.os.Bundle
 import android.view.View

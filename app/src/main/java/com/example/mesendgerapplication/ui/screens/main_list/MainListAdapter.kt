@@ -11,6 +11,7 @@ import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.ui.screens.single_chat.SingleChatFragment
 import com.example.mesendgerapplication.utilities.downloadAndSetImage
 import com.example.mesendgerapplication.utilities.replaceFragment
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MainListHolder>() {
 
@@ -19,7 +20,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MainListHolder>() {
     class MainListHolder(binding: MainListItemBinding) : RecyclerView.ViewHolder(binding.root){
         val itemName : TextView = binding.mainListFullName
         val itemLastMessage = binding.mainListLastMessage
-        val itemPhoto : ImageView = binding.mainListPhoto
+        val itemPhoto : CircleImageView = binding.mainListPhoto
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainListHolder {

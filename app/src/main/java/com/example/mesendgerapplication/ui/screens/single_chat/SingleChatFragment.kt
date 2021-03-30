@@ -16,9 +16,8 @@ import com.example.mesendgerapplication.databinding.FragmentSingleChatBinding
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.message_recycler_view.views.AppViewFactory
-import com.example.mesendgerapplication.ui.screens.BaseFragment
+import com.example.mesendgerapplication.ui.screens.base.BaseFragment
 import com.example.mesendgerapplication.ui.screens.main_list.MainListFragment
-import com.example.mesendgerapplication.ui.screens.setings.ChangeNameFragment
 import com.example.mesendgerapplication.utilities.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
