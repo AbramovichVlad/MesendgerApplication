@@ -4,26 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AbsListView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.mesendgerapplication.MainActivity
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
-import com.example.mesendgerapplication.databinding.ActivityMainBinding
-import com.example.mesendgerapplication.databinding.ChoiseUploadBinding
 import com.example.mesendgerapplication.databinding.FragmentSingleChatBinding
-import com.example.mesendgerapplication.databinding.ToolbarInfoBinding
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.models.UserModel
 import com.example.mesendgerapplication.ui.message_recycler_view.views.AppViewFactory
 import com.example.mesendgerapplication.ui.screens.BaseFragment
+import com.example.mesendgerapplication.ui.screens.main_list.MainListFragment
+import com.example.mesendgerapplication.ui.screens.setings.ChangeNameFragment
 import com.example.mesendgerapplication.utilities.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
@@ -37,12 +32,9 @@ class SingleChatFragment(private val contact: CommonModel) :
     BaseFragment(R.layout.fragment_single_chat) {
 
     private lateinit var binding: FragmentSingleChatBinding
-    private lateinit var bindingBotoomSheetBehavior: ChoiseUploadBinding
-    private lateinit var bindingToolbar: ToolbarInfoBinding
 
     private lateinit var mListnerInfoToolbar: AppValueEventListener
     private lateinit var mRecivingUser: UserModel
-    private lateinit var mToolbarInfo: View
     private lateinit var mRefUser: DatabaseReference
     private lateinit var mRefMessages: DatabaseReference
     private lateinit var mAdapter: SingleChatAdapter
@@ -66,13 +58,12 @@ class SingleChatFragment(private val contact: CommonModel) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSingleChatBinding.bind(view)
-        bindingBotoomSheetBehavior = ChoiseUploadBinding.bind(view)
-        bindingToolbar = ToolbarInfoBinding.bind(view)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initFields() {
-        mBottomBehavior = BottomSheetBehavior.from(bindingBotoomSheetBehavior.bottomSheetChoise)
+        setHasOptionsMenu(true)
+        mBottomBehavior = BottomSheetBehavior.from(binding.choiseUploadInclude.bottomSheetChoise)
         mBottomBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         mAppVoiceRecorder = AppVoiceRecorder()
         mSwipeRefreshLayout = binding.chatSwipeRefresh
@@ -125,8 +116,8 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     private fun attach() {
         mBottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        bindingBotoomSheetBehavior.btnAttachImage.setOnClickListener { attachImage() }
-        bindingBotoomSheetBehavior.btnAttachFile.setOnClickListener { attachFile() }
+        binding.choiseUploadInclude.btnAttachImage.setOnClickListener { attachImage() }
+        binding.choiseUploadInclude.btnAttachFile.setOnClickListener { attachFile() }
     }
 
     private fun attachFile() {
@@ -214,8 +205,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     }
 
     private fun initToolbar() {
-        mToolbarInfo = ActivityMainBinding.bind(tol)
-        mToolbarInfo.visibility = View.VISIBLE
+        binding.toolBarInclude.blockToolbarInfo.visibility = View.VISIBLE
         mListnerInfoToolbar = AppValueEventListener {
             mRecivingUser = it.getUserModel()
             initInfoToolbar()
@@ -237,24 +227,42 @@ class SingleChatFragment(private val contact: CommonModel) :
 
     private fun initInfoToolbar() {
         if (mRecivingUser.fullname.isEmpty()) {
-            mToolbarInfo.toolbar_contact_chat_fullName.text = contact.fullname
+            binding.toolBarInclude.toolbarContactChatFullName.text = contact.fullname
         } else {
-            mToolbarInfo.toolbar_contact_chat_fullName.text = mRecivingUser.fullname
+            binding.toolBarInclude.toolbarContactChatFullName.text = mRecivingUser.fullname
         }
-        mToolbarInfo.toolbar_chat_image.downloadAndSetImage(mRecivingUser.photoUrl)
-        mToolbarInfo.toolbar_contact_chat_status.text = mRecivingUser.state
+        binding.toolBarInclude.toolbarChatImage.downloadAndSetImage(mRecivingUser.photoUrl)
+        binding.toolBarInclude.toolbarContactChatStatus.text = mRecivingUser.state
     }
 
     override fun onPause() {
         super.onPause()
-        mToolbarInfo.visibility = View.GONE
+        binding.toolBarInclude.blockToolbarInfo.visibility = View.GONE
         mRefUser.removeEventListener(mListnerInfoToolbar)
         mRefMessages.removeEventListener(mMessagesListner)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        activity?.menuInflater?.inflate(R.menu.single_chat_action_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+        R.id.menu_clear_chat -> clearChat(contact.id){
+            showToast(getString(R.string.chat_clear_toast))
+            replaceFragment(MainListFragment())
+        }
+            R.id.menu_delete_chat -> deleteChat(contact.id){
+                showToast(getString(R.string.chat_delet_toast))
+                replaceFragment(MainListFragment())
+            }
+        }
+        return true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
         mAppVoiceRecorder.releseReorder()
         mAdapter.destroy()
     }

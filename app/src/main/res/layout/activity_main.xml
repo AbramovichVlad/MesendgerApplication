@@ -15,8 +15,7 @@
 
         <include
             android:id="@+id/toolbar_info"
-            layout="@layout/toolbar_info"
-            android:visibility="gone" />
+            layout="@layout/toolbar_info"/>
 
     </androidx.appcompat.widget.Toolbar>
 

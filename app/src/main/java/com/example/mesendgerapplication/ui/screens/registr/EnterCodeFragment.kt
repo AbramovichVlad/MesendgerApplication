@@ -4,21 +4,23 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
+import com.example.mesendgerapplication.databinding.FragmentEnterCodeBinding
 import com.example.mesendgerapplication.utilities.*
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.android.synthetic.main.fragment_enter_code.*
 
 
 class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
     Fragment(R.layout.fragment_enter_code) {
 
+    private lateinit var binding: FragmentEnterCodeBinding
+
     override fun onStart() {
         Log.d("tagEnterPhoneNumber", "onStart EnterCodeFragment")
         super.onStart()
         APP_ACTIVITY.title = mPhoneNumber
-        registr_input_code.addTextChangedListener(AppTextWatcher {
+        binding.registrInputCode.addTextChangedListener(AppTextWatcher {
 
-            val strCode = registr_input_code.text.toString()
+            val strCode = binding.registrInputCode.text.toString()
             if (strCode.length == 6) {
                 verifiCode()
             }
@@ -27,7 +29,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
 
     private fun verifiCode() {
         Log.d("tagEnterPhoneNumber", "authverifiCodeUser")
-        val code = registr_input_code.text.toString()
+        val code = binding.registrInputCode.text.toString()
         val credential = PhoneAuthProvider.getCredential(id, code)
 
         AUTH.signInWithCredential(credential).addOnCompleteListener {
@@ -40,7 +42,7 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
                 REF_DATABASE_ROOT
                     .child(NODE_USERS)
                     .child(uid).addListenerForSingleValueEvent(AppValueEventListener {
-                        if (!it.hasChild(CHILD_USER_NAME)){
+                        if (!it.hasChild(CHILD_USER_NAME)) {
                             dateMap[CHILD_USER_NAME] = uid
                         }
                         REF_DATABASE_ROOT
@@ -66,5 +68,4 @@ class EnterCodeFragment(val mPhoneNumber: String, val id: String) :
             } else showToast(it.exception?.message.toString())
         }
     }
-
 }

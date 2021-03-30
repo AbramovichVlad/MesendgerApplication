@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/chat_user_btn_play"
-            android:layout_width="@dimen/btn_voice_width"
-            android:layout_height="@dimen/btn_voice_hight"
+            android:layout_width="@dimen/chat_btn_hight"
+            android:layout_height="@dimen/chat_btn_hight"
             android:layout_margin="@dimen/app_smal_margin"
             android:src="@drawable/ic_play_green"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
             android:contentDescription="@string/chat_user_btn_play_decripton" />
         <ImageView
             android:id="@+id/chat_user_btn_stop"
-            android:layout_width="@dimen/btn_voice_width"
-            android:layout_height="@dimen/btn_voice_hight"
+            android:layout_width="@dimen/chat_btn_width"
+            android:layout_height="@dimen/chat_btn_hight"
             android:layout_margin="@dimen/app_smal_margin"
             android:src="@drawable/ic_stop_green"
             android:visibility="gone"
@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/chat_reciving_user_btn_play"
-            android:layout_width="@dimen/btn_voice_width"
-            android:layout_height="@dimen/btn_voice_hight"
+            android:layout_width="@dimen/chat_btn_width"
+            android:layout_height="@dimen/chat_btn_hight"
             android:layout_margin="@dimen/app_smal_margin"
             android:src="@drawable/ic_play_blue"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,8 +74,8 @@
             android:contentDescription="@string/chat_reciving_user_btn_play_description" />
         <ImageView
             android:id="@+id/chat_reciving_user_btn_stop"
-            android:layout_width="@dimen/btn_voice_width"
-            android:layout_height="@dimen/btn_voice_hight"
+            android:layout_width="@dimen/chat_btn_width"
+            android:layout_height="@dimen/chat_btn_width"
             android:layout_margin="@dimen/app_smal_margin"
             android:src="@drawable/ic_stop_blue"
             android:visibility="gone"

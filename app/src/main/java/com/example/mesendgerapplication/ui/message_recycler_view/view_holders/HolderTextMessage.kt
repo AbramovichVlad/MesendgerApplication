@@ -5,20 +5,20 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.database.CURRENT_UID
+import com.example.mesendgerapplication.databinding.MessageItemTextBinding
 import com.example.mesendgerapplication.ui.message_recycler_view.views.MessageView
 import com.example.mesendgerapplication.utilities.asTime
-import kotlinx.android.synthetic.main.message_item.view.*
 
-class HolderTextMessage(view: View) : RecyclerView.ViewHolder(view), MessageHolder {
+class HolderTextMessage(binding: MessageItemTextBinding) : RecyclerView.ViewHolder(binding.root),
+    MessageHolder {
 
-    private val blockUserMessage: ConstraintLayout = view.block_user_message
-    private val chatUserMessage: TextView = view.chat_user_message
-    private val chatUserMessageTime: TextView = view.chat_user_message_time
+    private val blockUserMessage: ConstraintLayout = binding.blockUserMessage
+    private val chatUserMessage: TextView = binding.chatUserMessage
+    private val chatUserMessageTime: TextView = binding.chatUserMessageTime
 
-    private val blockRecivingUserMessage: ConstraintLayout = view.block_received_message
-    private val chatRecivingUserMessage: TextView = view.chat_received_message
-    private val chatRecivingUserMeassgeTime: TextView = view.chat_received_message_time
-
+    private val blockRecivingUserMessage: ConstraintLayout = binding.blockReceivedMessage
+    private val chatRecivingUserMessage: TextView = binding.chatReceivedMessage
+    private val chatRecivingUserMeassgeTime: TextView = binding.chatReceivedMessageTime
     override fun drawMessage(view: MessageView) {
         if (view.from == CURRENT_UID) {
             blockUserMessage.visibility = View.VISIBLE

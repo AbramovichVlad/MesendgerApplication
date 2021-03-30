@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
+import com.example.mesendgerapplication.databinding.*
 import com.example.mesendgerapplication.ui.message_recycler_view.views.MessageView
 
 class AppHolderFactory {
@@ -12,24 +13,20 @@ class AppHolderFactory {
         fun getHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return when (viewType) {
                 MessageView.MESSAGE_IMAGE -> {
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.message_item_image, parent, false)
-                    HolderImageMessage(view)
+                    val binding = MessageItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    HolderImageMessage(binding)
                 }
                 MessageView.MESSAGE_VOICE -> {
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.message_item_voice, parent, false)
-                    HolderVoiceMessage(view)
+                    val binding = MessageItemVoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    HolderVoiceMessage(binding)
                 }
                 MessageView.MESSAGE_FILE-> {
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.message_item_file, parent, false)
-                    HolderFileMessage(view)
+                    val binding = MessageItemFileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    HolderFileMessage(binding)
                 }
                 else -> {
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.message_item_text, parent, false)
-                    HolderTextMessage(view)
+                    val binding = MessageItemTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    HolderTextMessage(binding)
                 }
             }
         }

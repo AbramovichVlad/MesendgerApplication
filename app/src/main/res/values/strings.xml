@@ -51,4 +51,10 @@
     <string name="chat_reciving_user_btn_stop_description">chat_reciving_user_btn_stop</string>
     <string name="btn_attach_image">btn_attach_image</string>
     <string name="btn_attach_file">btn_attach_file</string>
+    <string name="clear_chat">Очистить чат</string>
+    <string name="delet_chat">Удалить чат</string>
+    <string name="chat_delet_toast">Чат удален</string>
+    <string name="chat_clear_toast">Чат очищен</string>
+    <string name="mai_list_name">full name contact</string>
+    <string name="main_list_messages">last message</string>
 </resources>

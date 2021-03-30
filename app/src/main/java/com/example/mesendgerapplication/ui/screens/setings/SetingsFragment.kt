@@ -1,19 +1,24 @@
-package com.example.mesendgerapplication.ui.screens
+package com.example.mesendgerapplication.ui.screens.setings
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
+import com.example.mesendgerapplication.databinding.FragmentSetingsBinding
+import com.example.mesendgerapplication.ui.screens.BaseFragment
 import com.example.mesendgerapplication.utilities.*
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import kotlinx.android.synthetic.main.fragment_setings.*
 
 
 class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
+
+    private lateinit var binding:  FragmentSetingsBinding
 
     override fun onResume() {
         super.onResume()
@@ -21,22 +26,27 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
         initFields()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSetingsBinding.bind(view)
+    }
+
     private fun initFields() {
-        tv_seting_username.text = USER.fullname
-        tv_settings_bio.text = USER.bio
-        tv_settings_phone_number.text = USER.phone
-        tv_settings_full_name.text = USER.username
-        tv_seting_user_status.text = USER.state
-        settings_btn_change_login.setOnClickListener {
+        binding.tvSetingUsername.text = USER.fullname
+        binding.tvSettingsBio.text = USER.bio
+        binding.tvSettingsPhoneNumber.text = USER.phone
+        binding.tvSettingsFullName.text = USER.username
+        binding.tvSetingUserStatus.text = USER.state
+        binding.settingsBtnChangeLogin.setOnClickListener {
             replaceFragment(ChangeUserNameFragment())
         }
-        settings_btn_change_bio.setOnClickListener {
+        binding.settingsBtnChangeBio.setOnClickListener {
             replaceFragment(ChangeBIoFragment())
         }
-        settings_change_photo.setOnClickListener {
+        binding.settingsBtnChangePhoneNumber.setOnClickListener {
             changePhotoUser()
         }
-        seting_user_photo.downloadAndSetImage(USER.photoUrl)
+        binding.setingUserPhoto.downloadAndSetImage(USER.photoUrl)
     }
 
     private fun changePhotoUser() {
@@ -79,7 +89,7 @@ class SetingsFragment : BaseFragment(R.layout.fragment_setings) {
             putFileToStorage(uri, path) {
                 getUrlFromStorage(path) {
                     putUrlToDataBase(it) {
-                        seting_user_photo.downloadAndSetImage(it)
+                        binding.setingUserPhoto.downloadAndSetImage(it)
                         showToast(getString(R.string.toast_data_update))
                         USER.photoUrl = it
                         APP_ACTIVITY.mAppDrawer.enableDrawer()

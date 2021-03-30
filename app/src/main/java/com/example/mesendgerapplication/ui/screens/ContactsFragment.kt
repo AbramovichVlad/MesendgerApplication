@@ -1,5 +1,6 @@
 package com.example.mesendgerapplication.ui.screens
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,15 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.R
 import com.example.mesendgerapplication.database.*
+import com.example.mesendgerapplication.databinding.ContactItemBinding
+import com.example.mesendgerapplication.databinding.FragmentContactsBinding
 import com.example.mesendgerapplication.models.CommonModel
 import com.example.mesendgerapplication.ui.screens.single_chat.SingleChatFragment
-import com.example.mesendgerapplication.utilities.*
+import com.example.mesendgerapplication.utilities.APP_ACTIVITY
+import com.example.mesendgerapplication.utilities.AppValueEventListener
+import com.example.mesendgerapplication.utilities.downloadAndSetImage
+import com.example.mesendgerapplication.utilities.replaceFragment
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.contact_item.view.*
-import kotlinx.android.synthetic.main.fragment_contacts.*
 
 class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
 
@@ -25,6 +29,12 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
     private lateinit var mRefUsers: DatabaseReference
     private lateinit var mRefUsersListner: AppValueEventListener
     private var mapListner = hashMapOf<DatabaseReference, AppValueEventListener>()
+    private lateinit var binding: FragmentContactsBinding
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentContactsBinding.bind(view)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -33,7 +43,7 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
     }
 
     private fun initRecyclerView() {
-        mRecyclerView = contacts_recycler_view
+        mRecyclerView = binding.contactsRecyclerView
         mRefContacts = REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID)
 
         val options = FirebaseRecyclerOptions.Builder<CommonModel>()
@@ -42,9 +52,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
 
         mAdapter = object : FirebaseRecyclerAdapter<CommonModel, ContactsHolder>(options) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.contact_item, parent, false)
-                return ContactsHolder(view)
+                val binding =
+                    ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return ContactsHolder(binding)
             }
 
             override fun onBindViewHolder(
@@ -81,9 +91,9 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
         }
     }
 
-    class ContactsHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.toolbar_contact_chat_fullName
-        val status: TextView = view.toolbar_contact_chat_status
-        val photo: CircleImageView = view.contact_photo
+    class ContactsHolder(binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val name: TextView = binding.toolbarContactChatFullName
+        val status: TextView = binding.toolbarContactChatStatus
+        val photo: CircleImageView = binding.contactPhoto
     }
 }

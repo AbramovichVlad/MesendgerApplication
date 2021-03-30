@@ -203,11 +203,11 @@ fun getFileFromStorage(mFile: File, fileUrl: String, function: () -> Unit) {
 }
 
 fun saveToMainList(id: String, type: String) {
-    val refUser = "$NODE_MAIN_LISt/$CURRENT_UID/$id"
-    val refReceivedUser = "$NODE_MAIN_LISt/$id/$CURRENT_UID"
+    val refUser = "$NODE_MAIN_LIST/$CURRENT_UID/$id"
+    val refReceivedUser = "$NODE_MAIN_LIST/$id/$CURRENT_UID"
 
-    val mapUser = hashMapOf<String,Any>()
-    val mapReceivedUser = hashMapOf<String,Any>()
+    val mapUser = hashMapOf<String, Any>()
+    val mapReceivedUser = hashMapOf<String, Any>()
 
     mapUser[CHILD_ID] = id
     mapUser[CHILD_TYPE] = type
@@ -221,4 +221,23 @@ fun saveToMainList(id: String, type: String) {
 
     REF_DATABASE_ROOT.updateChildren(commonMap)
         .addOnFailureListener { showToast(it.message.toString()) }
+}
+
+fun deleteChat(id: String, function: () -> Unit) {
+REF_DATABASE_ROOT.child(NODE_MESSAGE).child(CURRENT_UID).child(id)
+    .removeValue()
+    .addOnFailureListener { showToast(it.message.toString()) }
+    .addOnSuccessListener { function() }
+}
+
+fun clearChat(id: String, function: () -> Unit) {
+    REF_DATABASE_ROOT.child(NODE_MESSAGE).child(CURRENT_UID).child(id)
+        .removeValue()
+        .addOnFailureListener { showToast(it.message.toString()) }
+        .addOnCompleteListener {
+            REF_DATABASE_ROOT.child(NODE_MESSAGE).child(id).child(CURRENT_UID)
+                .removeValue()
+                .addOnFailureListener { showToast(it.message.toString()) }
+                .addOnSuccessListener { function() }
+        }
 }

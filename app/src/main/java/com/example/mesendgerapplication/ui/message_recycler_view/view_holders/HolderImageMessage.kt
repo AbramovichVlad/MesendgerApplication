@@ -6,20 +6,22 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.database.CURRENT_UID
+import com.example.mesendgerapplication.databinding.MessageItemImageBinding
 import com.example.mesendgerapplication.ui.message_recycler_view.views.MessageView
 import com.example.mesendgerapplication.utilities.asTime
 import com.example.mesendgerapplication.utilities.downloadAndSetImage
-import kotlinx.android.synthetic.main.message_item.view.*
 
-class HolderImageMessage(view: View) : RecyclerView.ViewHolder(view), MessageHolder {
+class HolderImageMessage(binding: MessageItemImageBinding) : RecyclerView.ViewHolder(binding.root),
+    MessageHolder {
 
-    private val blockUserMessageImage: ConstraintLayout = view.block_user_message_image
-    private  val chatUserMessageImage: ImageView = view.chat_user_image
-    private val chatUserMessageTimeImage: TextView = view.chat_user_message_time_image
+    private val blockUserMessageImage: ConstraintLayout = binding.blockUserMessageImage
+    private val chatUserMessageImage: ImageView = binding.chatUserImage
+    private val chatUserMessageTimeImage: TextView = binding.chatUserMessageTimeImage
 
-    private  val blockRecivingUserMessageImage: ConstraintLayout = view.block_recivde_user_message_image
-    private val chatRecivingUserMessageImage: ImageView = view.chat_reciving_user_image
-    private val chatRecivingUserMeassgeTimeImage: TextView = view.chat_received_message_time_image
+    private val blockRecivingUserMessageImage: ConstraintLayout =
+        binding.blockRecivdeUserMessageImage
+    private val chatRecivingUserMessageImage: ImageView = binding.chatRecivingUserImage
+    private val chatRecivingUserMeassgeTimeImage: TextView = binding.chatReceivedMessageTimeImage
 
     override fun drawMessage(view: MessageView) {
         if (view.from == CURRENT_UID) {

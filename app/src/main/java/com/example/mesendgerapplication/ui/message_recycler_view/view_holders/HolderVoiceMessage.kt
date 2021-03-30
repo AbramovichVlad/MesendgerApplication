@@ -6,26 +6,27 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mesendgerapplication.database.CURRENT_UID
+import com.example.mesendgerapplication.databinding.MessageItemVoiceBinding
 import com.example.mesendgerapplication.ui.message_recycler_view.views.MessageView
 import com.example.mesendgerapplication.utilities.AppVoicePlayer
 import com.example.mesendgerapplication.utilities.asTime
-import kotlinx.android.synthetic.main.message_item_voice.view.*
 
-class HolderVoiceMessage(view: View) : RecyclerView.ViewHolder(view), MessageHolder {
+class HolderVoiceMessage(binding: MessageItemVoiceBinding) : RecyclerView.ViewHolder(binding.root),
+    MessageHolder {
 
     private val mAppVoicePlayer = AppVoicePlayer()
 
-    private val blockUserMessageVoice: ConstraintLayout = view.block_user_message_voice
-    private val chatUserMessageTimeVoice: TextView = view.chat_user_message_time_voice
+    private val blockUserMessageVoice: ConstraintLayout = binding.blockUserMessageVoice
+    private val chatUserMessageTimeVoice: TextView = binding.chatUserMessageTimeVoice
     private val blockRecivingUserMessageVoice: ConstraintLayout =
-        view.block_reciving_user_message_voice
+        binding.blockRecivingUserMessageVoice
     private val chatRecivingUserMeassgeTimeVoice: TextView =
-        view.chat_reciving_user_message_time_voice
+        binding.chatRecivingUserMessageTimeVoice
 
-    private val chatUserBtnPlay: ImageView = view.chat_user_btn_play
-    private val chatUserBtnStop: ImageView = view.chat_user_btn_stop
-    private val chatRecivingUserBtnPlay: ImageView = view.chat_reciving_user_btn_play
-    private val chatRecivingUserBtnStop: ImageView = view.chat_reciving_user_btn_stop
+    private val chatUserBtnPlay: ImageView = binding.chatUserBtnPlay
+    private val chatUserBtnStop: ImageView = binding.chatUserBtnStop
+    private val chatRecivingUserBtnPlay: ImageView = binding.chatRecivingUserBtnPlay
+    private val chatRecivingUserBtnStop: ImageView = binding.chatRecivingUserBtnStop
 
     override fun drawMessage(view: MessageView) {
         if (view.from == CURRENT_UID) {
